@@ -1,18 +1,30 @@
-import * as fs from 'fs';
-import * as path from 'path';
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
 
-const directoryPath = './'; // Replace with your directory path
+// relative to current working directory
+// this is used to construct a URL
+const directoryPath = 'posts/';
 
 class BlogPost {
     private date: Date;
     private title: string;
     private text: string;
+    private url: string;
 
     constructor(dateString: string, title: string, text: string) {
         const [year, month, day] = dateString.split('-');
         this.date = new Date(Number(year), Number(month) - 1, Number(day));
         this.title = title;
         this.text = text;
+        this.url = "";
+
+        try {
+            const output = execSync("git remote get-url origin").toString().trim();
+            this.url = output + "/blob/master/" + directoryPath + dateString + ".md";
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     getDate(): Date {
@@ -25,6 +37,10 @@ class BlogPost {
 
     getText(): string {
         return this.text;
+    }
+
+    getUrl(): string {
+        return this.url;
     }
 }
 
@@ -55,8 +71,8 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
             let trimmedText = text.replace(/^\n+/, '');
 
             let currentPost = new BlogPost(dateString, title, trimmedText);
-
             resolve(currentPost);
+
         });
 
         fileStream.on('error', (err: Error) => {
