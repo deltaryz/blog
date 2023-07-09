@@ -21,7 +21,7 @@ class BlogPost {
 
         try {
             const output = execSync("git remote get-url origin").toString().trim();
-            this.url = output + "/blob/master/" + directoryPath + dateString + ".md";
+            this.url = output + "/blob/main/" + directoryPath + dateString + ".md";
         } catch (error) {
             console.error(error);
         }
@@ -66,8 +66,8 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
         });
 
         fileStream.on('close', () => {
-            let dateString = file.replace(".md", "");
-            let title = firstLine.replace("# ", "");
+            let dateString = file.split(' ')[0];
+            let title = file.substring(file.indexOf(' ') + 1).replace(".md", "");
             let trimmedText = text.replace(/^\n+/, '');
 
             let currentPost = new BlogPost(dateString, title, trimmedText);
