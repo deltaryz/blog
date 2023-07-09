@@ -12,7 +12,7 @@ class BlogPost {
     private text: string;
     private url: string;
 
-    constructor(dateString: string, title: string, text: string) {
+    constructor(dateString: string, title: string, text: string, file: string) {
         const [year, month, day] = dateString.split('-');
         this.date = new Date(Number(year), Number(month) - 1, Number(day));
         this.title = title;
@@ -21,7 +21,7 @@ class BlogPost {
 
         try {
             const output = execSync("git remote get-url origin").toString().trim();
-            this.url = output + "/blob/main/" + directoryPath + dateString + ".md";
+            this.url = output + "/blob/main/" + directoryPath + file.replace(/ /g, "%20");
         } catch (error) {
             console.error(error);
         }
@@ -70,7 +70,7 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
             let title = file.substring(file.indexOf(' ') + 1).replace(".md", "");
             let trimmedText = text.replace(/^\n+/, '');
 
-            let currentPost = new BlogPost(dateString, title, trimmedText);
+            let currentPost = new BlogPost(dateString, title, trimmedText, file);
             resolve(currentPost);
 
         });
