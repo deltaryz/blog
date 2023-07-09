@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 // relative to current working directory
-// this is used to construct a URL
+// this string is also used to construct a public github URL
 const directoryPath = 'posts/';
 
 class BlogPost {
@@ -19,8 +19,11 @@ class BlogPost {
         this.text = text;
         this.url = "";
 
+        // get the github URL from the local directory
         try {
             const output = execSync("git remote get-url origin").toString().trim();
+
+            // direct link to github's preview of the file
             this.url = output + "/blob/main/" + directoryPath + file.replace(/ /g, "%20");
         } catch (error) {
             console.error(error);
@@ -49,8 +52,10 @@ function compareBlogPostsByDate(a: BlogPost, b: BlogPost): number {
     return b.getDate().getTime() - a.getDate().getTime();
 }
 
+// array of all blog posts (populated as files are read)
 let posts: BlogPost[] = [];
 
+// this is a promise so we can make sure to execute something after it finishes
 function readFile(filePath: string, file: string): Promise<BlogPost> {
     return new Promise((resolve, reject) => {
         const fileStream = fs.createReadStream(filePath, { encoding: 'utf8' });
@@ -58,10 +63,16 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
         let text = '';
 
         fileStream.on('data', (chunk: string) => {
-            // Read the first line from the file
+            // array of each line
             const lines = chunk.split('\n');
+
+            // Read the first line from the file
             firstLine = lines[0];
+
+            // remove the first line
             lines.shift();
+
+            // combine everything back together minus the first line
             text = lines.join('\n');
         });
 
@@ -70,7 +81,10 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
             let title = file.substring(file.indexOf(' ') + 1).replace(".md", "");
             let trimmedText = text.replace(/^\n+/, '');
 
+            // create a new BlogPost object with all the data we gathered
             let currentPost = new BlogPost(dateString, title, trimmedText, file);
+
+            // i promise ill give u this blog post uwu
             resolve(currentPost);
 
         });
@@ -96,9 +110,12 @@ fs.readdir(directoryPath, async (err: NodeJS.ErrnoException | null, files: strin
         });
 
     try {
-
+        // this will be an array of BlogPosts
         const results = await Promise.all(filePromises);
+
+        // sort by most recent
         posts = results.sort(compareBlogPostsByDate);
+
         console.log(posts);
 
     } catch (err) {
