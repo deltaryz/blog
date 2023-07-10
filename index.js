@@ -17,7 +17,11 @@ fetch("posts.json")
 
       // create preview of content
       let preview = document.createElement("p");
-      preview.textContent = element.text;
+
+      // trim to only a few sentences
+      const sentenceRegex = /[^.!?]+[.!?]+/g;
+      const sentences = element.text.match(sentenceRegex);
+      preview.textContent = sentences.slice(0, 10).join(" ");
 
       // create button element
       let button = document.createElement("button");
