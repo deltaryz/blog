@@ -15,6 +15,12 @@ if ! command -v ts-node &> /dev/null; then
     npm install -g ts-node
 fi
 
-echo "TypeScript and ts-node are installed."
+# Check if `npm install .` needs to be run
+if [[ ! -d "node_modules" ]]; then
+    echo "Dependencies not installed. Running 'npm install .'"
+    npm install .
+fi
+
+echo "TypeScript, ts-node, and project dependencies are installed."
 
 ts-node makejson.ts
