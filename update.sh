@@ -3,6 +3,8 @@
 # This script will run `makejson.ts` 
 # Caddy will be configured to run this automatically whenever the site updates
 
+# For the sake of OS-agnosticity, this script assumes node and npm are already present on the system.
+
 # Check if TypeScript is installed
 if ! command -v tsc &> /dev/null; then
     echo "TypeScript is not installed. Installing TypeScript..."
