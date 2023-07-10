@@ -1,3 +1,6 @@
+// this script will be run automatically when the webserver updates the site from this repo
+// it generates a JSON file containing metadata for the blog posts.
+
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -5,6 +8,9 @@ const { execSync } = require('child_process');
 // relative to current working directory
 // this string is also used to construct a public github URL
 const directoryPath = 'posts/';
+
+// this is used by the frontend to display blog posts
+const jsonFilePath = './posts.json';
 
 class BlogPost {
     private date: Date;
@@ -73,7 +79,7 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
             lines.shift();
 
             // combine everything back together minus the first line
-            text = lines.join('\n');
+            text = lines.join('\n').trim();
         });
 
         fileStream.on('close', () => {
@@ -115,6 +121,19 @@ fs.readdir(directoryPath, async (err: NodeJS.ErrnoException | null, files: strin
 
         // sort by most recent
         posts = results.sort(compareBlogPostsByDate);
+
+        // convert to JSON
+        const jsonPosts = JSON.stringify(posts);
+
+        // write json to file
+        fs.writeFile(jsonFilePath, jsonPosts, (err: Error) => {
+            if (err) {
+                console.error('Error writing JSON file: ', err);
+                return;
+            }
+            console.log('JSON file saved successfully!');
+        });
+
 
         console.log(posts);
 
