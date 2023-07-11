@@ -27,7 +27,7 @@ class BlogPost {
 
         // get the github URL from the local directory
         try {
-            const output = execSync("git remote get-url origin").toString().trim();
+            const output = execSync("git remote get-url origin").toString().trim().replace(".git", "");
 
             // direct link to github's preview of the file
             this.url = output + "/blob/main/" + directoryPath + file.replace(/ /g, "%20");
