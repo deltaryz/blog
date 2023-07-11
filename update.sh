@@ -15,8 +15,13 @@ fi
 latest_version=$(n --latest)
 if [ "$(node --version)" != "$latest_version" ]; then
     # Install the latest Node.js version
-    echo "There is a node.js update available. Updating node and npm..."
+    echo "There is a node.js update ($latest_version) available. Updating node and npm..."
     n latest
+
+    # make sure the new executable is present in PATH
+    export PATH=/usr/local/bin:$PATH
+    echo "Checking updated node version: $(node --version)"
+
     npm install -g npm@latest
 fi
 
