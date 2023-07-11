@@ -32,7 +32,7 @@ fetch("posts.json")
       button.className = "mui-btn mui-btn--primary mui-btn--raised";
       button.textContent = "Read More";
       button.onclick = function () {
-        window.location.href = element.url;
+        window.open(element.url, "_blank").focus();
       };
 
       // put it all together
