@@ -19,4 +19,9 @@ fi
 
 echo "TypeScript and project dependencies are installed."
 
+# Generate the posts.json
 tsc makejson.ts && node makejson.js
+
+# This makes sure caddy will still be able to git pull over it
+echo "Forcibly resetting repo in case npm fucks something up"
+git reset --hard HEAD
