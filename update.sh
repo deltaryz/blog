@@ -5,6 +5,21 @@
 
 # For the sake of OS-agnosticity, this script assumes node and npm are already present on the system.
 
+# Check if n is installed
+if ! command -v n >/dev/null 2>&1; then
+    echo "n is not installed. Installing n..."
+    npm install -g n
+fi
+
+# Check if the latest Node.js version is installed
+latest_version=$(n --latest)
+if [ "$(node --version)" != "$latest_version" ]; then
+    # Install the latest Node.js version
+    echo "There is a node.js update available. Updating node and npm..."
+    n latest
+    npm install -g npm@latest
+fi
+
 # Check if TypeScript is installed
 if ! command -v tsc >/dev/null 2>&1; then
     echo "TypeScript is not installed. Installing TypeScript..."
