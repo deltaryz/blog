@@ -5,10 +5,6 @@
 
 # For the sake of OS-agnosticity, this script assumes node and npm are already present on the system.
 
-echo "Checking for node and npm..."
-which node
-which npm
-
 # Check if TypeScript is installed
 if ! command -v tsc >/dev/null 2>&1; then
     echo "TypeScript is not installed. Installing TypeScript..."
