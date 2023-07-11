@@ -27,22 +27,22 @@ if [ "$(node --version)" != "$latest_version" ]; then
 
     # make sure the new executable is present in PATH
     echo "Checking updated node version: "
-    eval "${node_path} --version"
+    ${node_path} --version
 
     # update npm
-    eval "${npm_path} install -g npm@latest"
+    ${npm_path} install -g npm@latest
 fi
 
 # Check if TypeScript is installed
 if ! command -v tsc >/dev/null 2>&1; then
     echo "TypeScript is not installed. Installing TypeScript..."
-    eval "${npm_path} install -g typescript"
+    ${npm_path} install -g typescript
 fi
 
 # Check if `npm install .` needs to be run
 if [ ! -d "node_modules" ]; then
     echo "Dependencies not installed. Running 'npm install .'"
-    eval "${npm_path} install ."
+    ${npm_path} install .
 fi
 
 echo "TypeScript and project dependencies are installed."
