@@ -2,4 +2,4 @@
 
 This is a blog. Posts are simply Markdown files named by date, and with the title as a heading on the first line.
 
-Work is being done on a frontend that will display them in a more "blog-like" format.
+Posts can be previewed at [blog.deltaryz.com](https://blog.deltaryz.com). This site will automatically update based on the contents of the `posts` folder in this repository.
