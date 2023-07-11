@@ -25,6 +25,8 @@ if [ "$(node --version)" != "$latest_version" ]; then
     node_dir=$(echo "$node_path" | sed 's/\/node$//')
     npm_path="${node_dir}/npm"
 
+    n doctor
+
     # make sure the new executable is present in PATH
     echo "Checking updated node version: "
     ${node_path} --version
