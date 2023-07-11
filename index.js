@@ -15,6 +15,10 @@ fetch("posts.json")
       let title = document.createElement("h1");
       title.textContent = element.title;
 
+      // create date element
+      let date = document.createElement("h3");
+      date.textContent = element.date.slice(0, 10);
+
       // create preview of content
       let preview = document.createElement("p");
 
@@ -33,6 +37,7 @@ fetch("posts.json")
 
       // put it all together
       panelDiv.appendChild(title);
+      panelDiv.appendChild(date);
       panelDiv.appendChild(preview);
       panelDiv.appendChild(button);
       postsContainer.appendChild(panelDiv);
