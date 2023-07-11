@@ -11,11 +11,8 @@ if ! command -v tsc >/dev/null 2>&1; then
     npm install -g typescript
 fi
 
-# Check if `npm install .` needs to be run
-if [ ! -d "node_modules" ]; then
-    echo "Dependencies not installed. Running 'npm install .'"
-    npm install .
-fi
+# Make sure all dependencies are present
+npm install .
 
 echo "TypeScript and project dependencies are installed."
 
