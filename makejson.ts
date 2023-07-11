@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const removeMarkdown = require('remove-markdown');
 
 // relative to current working directory
 // this string is also used to construct a public github URL
@@ -88,7 +89,7 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
             let trimmedText = text.replace(/^\n+/, '');
 
             // create a new BlogPost object with all the data we gathered
-            let currentPost = new BlogPost(dateString, title, trimmedText, file);
+            let currentPost = new BlogPost(dateString, title, removeMarkdown(trimmedText), file);
 
             // i promise ill give u this blog post uwu
             resolve(currentPost);
