@@ -12,6 +12,7 @@
   },
   "scripts": {
     "makeJson": "npx tsx makejson.ts",
-    "renderMarkdown": "npx markdown \"posts\\2023-07-08 Humble Beginnings.md\" > test.html"
+    "makeHtml": "npx tsx makehtml.ts",
+    "build": "npm run-script makeJson && npm run-script makeHtml"
   }
 }

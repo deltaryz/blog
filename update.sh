@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# In a development environment, use `npm run-script makeJson` instead
+# In a development environment, use `npm run-script build` instead
 
 # This script is for my Caddy webserver
 # Caddy will be configured to run this automatically whenever the site updates
@@ -10,10 +10,10 @@
 # Make sure all dependencies are present
 npm install .
 
-echo "TypeScript and project dependencies are installed."
+echo "Project dependencies are installed."
 
-# Generate the posts.json
-npm run-script makeJson
+# Generate website assets
+npm run-script build
 
 # This makes sure caddy will still be able to git pull over it
 echo "Forcibly resetting repo in case npm fucks something up"

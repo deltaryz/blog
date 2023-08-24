@@ -1,5 +1,5 @@
-// this script will be run automatically when the webserver updates the site from this repo
-// it generates a JSON file containing metadata for the blog posts.
+// this script will be run automatically on site update to generate JSON metadata for all posts
+// this is used to construct the front page's list of posts
 
 const fs = require('fs');
 const path = require('path');
