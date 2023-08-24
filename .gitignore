@@ -2,3 +2,4 @@ node_modules/
 posts.json
 .DS_Store
 makejson.js
+test.html

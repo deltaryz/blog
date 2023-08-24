@@ -17,13 +17,15 @@ class BlogPost {
     private date: Date;
     private title: string;
     private text: string;
+    private textMd: string;
     private url: string;
 
-    constructor(dateString: string, title: string, text: string, file: string) {
+    constructor(dateString: string, title: string, text: string, textMd: string, file: string) {
         const [year, month, day] = dateString.split('-');
         this.date = new Date(Number(year), Number(month) - 1, Number(day));
         this.title = title;
         this.text = text;
+        this.textMd = textMd;
         this.url = "";
 
         // get the github URL from the local directory
@@ -47,6 +49,10 @@ class BlogPost {
 
     getText(): string {
         return this.text;
+    }
+
+    getTextMd(): string {
+        return this.textMd;
     }
 
     getUrl(): string {
@@ -89,7 +95,7 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
             let trimmedText = text.replace(/^\n+/, '');
 
             // create a new BlogPost object with all the data we gathered
-            let currentPost = new BlogPost(dateString, title, removeMarkdown(trimmedText), file);
+            let currentPost = new BlogPost(dateString, title, removeMarkdown(trimmedText), text, file);
 
             // i promise ill give u this blog post uwu
             resolve(currentPost);
