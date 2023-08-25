@@ -13,7 +13,7 @@ npm install .
 echo "Project dependencies are installed."
 
 # Generate website assets
-npm run-script build
+NODE_OPTIONS=--no-deprecation npm run-script build
 
 # This makes sure caddy will still be able to git pull over it
 echo "Forcibly resetting repo in case npm fucks something up"
