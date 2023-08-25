@@ -1,0 +1,7 @@
+{
+    "tasks": {
+        "makeJson": "deno run -A makejson.ts",
+        "makeHtml": "deno run -A makehtml.ts",
+        "build": "deno run -A makejson.ts && deno run -A makehtml.ts"
+    }
+  }

@@ -2,7 +2,8 @@
 
 import fs from "fs-extra";
 import path from "path";
-var Markdown = require("markdown-to-html").Markdown;
+import md from "markdown-to-html";
+const Markdown = md.Markdown;
 
 // relative to current working directory
 const mdPath = "posts/";
