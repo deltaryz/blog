@@ -1,5 +1,7 @@
 // This script will be run automatically on site update to generate HTML pages for all posts
 
+// TODO: Discord rich embeds (Might need extra fields of metadata?)
+
 import fs from "fs-extra";
 import path from "path";
 import md from "markdown-to-html";
@@ -7,7 +9,7 @@ const Markdown = md.Markdown;
 
 // relative to current working directory
 const mdPath = "posts/";
-const htmlOutputPath = "html/";
+const htmlOutputPath = "p/";
 
 // Check if the directory exists
 if (!fs.existsSync(htmlOutputPath)) {
@@ -43,7 +45,7 @@ fs.readdir(mdPath, (err, files) => {
         var md = new Markdown();
         var opts = {
           title: "File $BASENAME in $DIRNAME",
-          //stylesheet: "test/style.css",
+          stylesheet: "../index.css",
         };
         md.render(filePath, opts, function (err) {
           if (err) {

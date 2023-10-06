@@ -9,6 +9,7 @@ import removeMarkdown from "remove-markdown";
 // relative to current working directory
 // this string is also used to construct a public github URL
 const directoryPath = "posts/";
+const htmlPath = "p/";
 
 // this is used by the frontend to display blog posts
 const jsonFilePath = "./posts.json";
@@ -17,14 +18,16 @@ class BlogPost {
   private date: Date;
   private title: string;
   private text: string;
+  private github: string;
   private url: string;
 
   constructor(dateString: string, title: string, text: string, file: string) {
     const [year, month, day] = dateString.split("-");
     this.date = new Date(Number(year), Number(month) - 1, Number(day));
     this.title = title;
-    this.text = text;
+    this.github = "";
     this.url = "";
+    this.text = text;
 
     // get the github URL from the local directory
     try {
@@ -32,11 +35,13 @@ class BlogPost {
         .replace(".git", "");
 
       // direct link to github's preview of the file
-      this.url = output + "/blob/main/" + directoryPath +
+      this.github = output + "/blob/main/" + directoryPath +
         file.replace(/ /g, "%20");
     } catch (error) {
       console.error(error);
     }
+
+    this.url = htmlPath + file.replace(/ /g, "%20").replace(".md", ".html");
   }
 
   getDate(): Date {
@@ -52,7 +57,7 @@ class BlogPost {
   }
 
   getUrl(): string {
-    return this.url;
+    return this.github;
   }
 }
 
