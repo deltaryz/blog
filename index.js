@@ -1,4 +1,7 @@
 let postsContainer = document.getElementById("posts");
+let copyright = document.getElementById("copyright");
+
+copyright.innerHTML = "© 2023 - " + new Date().getFullYear() + " Cameron Seid";
 
 // grab the posts json from the server
 // (this should be automatically updated frequently)
