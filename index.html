@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#5B2A9C" />
     <!-- load MUI -->
     <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
     <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
@@ -26,14 +27,29 @@
                 color: rgba(0, 0, 0, 0.5);
                 filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.5));
                 " width="110px">
-                    <a href="https://blog.deltaryz.com" target="_blank">
-                        <img src="deltaryzlogo.png" style="height: 30px; padding-top: 3px; " />
+                    <a href="https://blog.deltaryz.com">
+                        <img src="deltaryzlogo.png" style="height: 30px; padding-top: 2px; " />
                     </a>
                 </td>
 
-                <td class="mui--appbar-height" align="right" style="padding-top: 6px;">
+                <td class="mui--appbar-height" align="right"
+                    style="padding-top: 8px; filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));">
                     <div class="mui-textfield mui-textfield--float-label">
-                        gh bc email
+
+                        <a href="mailto:me@deltaryz.com">
+                            <img src="svg/email.svg" alt="Email"
+                                style="filter: invert(1); height:25px; padding-right: 25px;" />
+                        </a>
+
+                        <a href="https://github.com/deltaryz/blog" target="_blank">
+                            <img src="svg/github.svg" alt="GitHub"
+                                style="filter: invert(1); height:25px; padding-right: 25px;" />
+                        </a>
+
+                        <a href="https://deltaryz.com" target="_blank">
+                            <img src="svg/music-circle.svg" alt="Music" style="filter: invert(1); height:25px;" />
+                        </a>
+
                     </div>
                 </td>
 
@@ -48,6 +64,7 @@
     </div>
 
     <div id="copyright">© 2023 Cameron Seid</div>
+    <br /><br />
 </body>
 
 <script src="index.js"></script>
