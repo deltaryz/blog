@@ -16,14 +16,18 @@ fetch("posts.json")
 
       // create title element
       let title = document.createElement("h1");
+      title.className = "header";
       title.textContent = element.title;
 
       // create date element
       let date = document.createElement("h3");
+      date.className = "date";
       date.textContent = element.date.slice(0, 10);
 
       // create preview of content
       let preview = document.createElement("p");
+      // for styling
+      preview.className = "preview";
 
       // trim to only a few sentences
       const sentenceRegex = /[^.!?]+[.!?]+/g;

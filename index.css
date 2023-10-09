@@ -33,7 +33,7 @@
     background-color: #ff69b4;
 }
 
-h1 {
+.header {
     font-style: italic;
     letter-spacing: 1px;
     margin-top: 5px;
@@ -41,13 +41,13 @@ h1 {
     text-shadow: 1px 1px 2px #0000006c;
 }
 
-h3 {
+.date {
     margin-top: 0px;
     letter-spacing: 3px;
     color: #00000067
 }
 
-p {
+.preview {
     color: #000000b3;
     text-align: justify;
 }
@@ -60,4 +60,57 @@ body {
 #copyright {
     text-align: center;
     color: white;
+}
+
+#content {
+    color: white;
+    margin: 20px;
+    padding-top: 5px;
+    text-shadow: 2px 2px 1px #000000;
+    text-align: justify;
+}
+
+#contentFrame {
+    /* background-color: #0000004d; */
+    background-image: linear-gradient(0deg, #00000062, #00000018);
+    box-shadow: 3px 3px 5px #00000071;
+    margin: 20px auto;
+    margin-top: 25px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+@media (max-width: 768px) {
+    #contentFrame {
+        max-width: 90%;
+        /* Remove the maximum width on small screens */
+    }
+}
+
+p,
+ul,
+pre {
+    padding-bottom: 10px;
+}
+
+#content h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #0000004d;
+    box-shadow: 2px 2px 2px #0000005b;
+}
+
+p img {
+    max-width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    filter: drop-shadow(2px 2px 1px rgb(0, 0, 0));
+}
+
+code {
+    background-color: #0000003d;
+    border-radius: 5px;
+    padding: 10px;
 }

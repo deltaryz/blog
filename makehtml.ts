@@ -94,8 +94,9 @@ fs.readFile("header.html", "utf8", (err, data) => {
                   let modifiedHtml = data.replace(
                     "</body>",
                     `
-                    </div>
-                    <br/><br/>
+                    <br/>
+                    </div></div>
+                    <br/>
                     <div id="copyright">© 2023 - ` + new Date().getFullYear() +
                       ` Cameron Seid</div><br/><br/>
                     <script src='../post.js'></script></body>
@@ -105,7 +106,8 @@ fs.readFile("header.html", "utf8", (err, data) => {
                   // Add header to the beginning
                   modifiedHtml = modifiedHtml.replace(
                     "<body>",
-                    "<body>" + headerString + "<div id='content'>",
+                    "<body>" + headerString +
+                      "<div id='contentFrame'><div id='content'>",
                   );
 
                   // Metadata
