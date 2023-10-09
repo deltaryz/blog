@@ -77,12 +77,12 @@ body {
     margin: 20px auto;
     margin-top: 25px;
     border-radius: 10px;
-    max-width: 60%;
+    max-width: 59%;
 }
 
 @media (max-width: 768px) {
     #contentFrame {
-        max-width: 90%;
+        max-width: 94%;
         /* Remove the maximum width on small screens */
     }
 }
@@ -105,7 +105,7 @@ pre {
 p img {
     max-width: 100%;
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     filter: drop-shadow(2px 2px 1px rgb(0, 0, 0));
 }
 

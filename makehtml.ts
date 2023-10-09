@@ -1,6 +1,5 @@
 // This script will be run automatically on site update to generate HTML pages for all posts
-
-// TODO: Discord rich embeds (Might need extra fields of metadata?)
+// This is possibly one of the dirtiest and most cursed things I've written.
 
 import fs from "fs-extra";
 import path from "path";
@@ -90,6 +89,30 @@ fs.readFile("header.html", "utf8", (err, data) => {
                     return;
                   }
 
+                  // construct a preview for the embed
+                  const bodyRegex = /<body[^>]*>([\s\S]*?)<\/body>/i;
+                  const match = bodyRegex.exec(data);
+                  let bodyContent = "";
+                  if (match && match.length >= 2) {
+                    bodyContent = match[1];
+                  }
+
+                  bodyContent = bodyContent.substring(
+                    bodyContent.indexOf("\n") + 1,
+                  );
+
+                  bodyContent = bodyContent.substring(
+                    bodyContent.indexOf("\n") + 1,
+                  ).replace(/<[^>]*>/g, "").replaceAll(
+                    "\n",
+                    " ",
+                  ).substring(0, 420);
+
+                  let htmlLink = "https://blog.deltaryz.com/" +
+                    htmlOutputPath + htmlFileName.replaceAll(" ", "%20");
+
+                  console.log(htmlLink);
+
                   // Add script to the end
                   let modifiedHtml = data.replace(
                     "</body>",
@@ -124,6 +147,22 @@ fs.readFile("header.html", "utf8", (err, data) => {
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#bb74ec">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name='theme-color' content='#5B2A9C' />
+
+    <!-- discord/twitter embeds -->
+    <meta property="og:title" content="∆•RYZ - ` + postTitle + `">
+    <meta property="og:description"
+      content="` + bodyContent + `">
+    <meta property="og:image" content="https://blog.deltaryz.com/android-chrome-512x512.png">
+    <meta property="og:url" content="` + htmlLink + `">
+    <meta property="og:type" content="website">
+  
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:title" content="∆•RYZ - ` + postTitle + `">
+    <meta name="twitter:description"
+    content="` + bodyContent + `">
+    <meta name="twitter:image" content="https://blog.deltaryz.com/android-chrome-512x512.png">
+    <meta name="twitter:url" content="` + htmlLink + `">
+
     <!-- load MUI -->
     <link href='//cdn.muicss.com/mui-0.10.3/css/mui.min.css' rel='stylesheet' type='text/css' />
     <script src='//cdn.muicss.com/mui-0.10.3/js/mui.min.js'></script>
