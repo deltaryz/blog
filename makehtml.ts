@@ -108,6 +108,10 @@ fs.readFile("header.html", "utf8", (err, data) => {
                     " ",
                   ).substring(0, 420);
 
+                  bodyContent =
+                    "Music producer, DJ, developer, artist, graphic designer, weird autistic internet animal. \n\n" +
+                    bodyContent;
+
                   let htmlLink = "https://blog.deltaryz.com/" +
                     htmlOutputPath + htmlFileName.replaceAll(" ", "%20");
 
