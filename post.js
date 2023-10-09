@@ -1,3 +1,3 @@
 // This script will be appended to each post page
 
-console.log("hi!");
+let contentDiv = document.getElementById("content");

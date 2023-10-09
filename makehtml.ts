@@ -52,9 +52,13 @@ fs.readFile("header.html", "utf8", (err, data) => {
         if (stats.isFile()) {
           console.log("Reading file:", filePath);
 
+          let postTitle = file.replace(".md", "").substring(
+            file.indexOf(" ") + 1,
+          );
+
           var md = new Markdown();
           var opts = {
-            title: "File $BASENAME in $DIRNAME",
+            title: "∆•RYZ - " + postTitle,
             stylesheet: "../index.css",
           };
           md.render(filePath, opts, function (err) {
@@ -90,6 +94,7 @@ fs.readFile("header.html", "utf8", (err, data) => {
                   let modifiedHtml = data.replace(
                     "</body>",
                     `
+                    </div>
                     <br/><br/>
                     <div id="copyright">© 2023 - ` + new Date().getFullYear() +
                       ` Cameron Seid</div><br/><br/>
@@ -100,7 +105,7 @@ fs.readFile("header.html", "utf8", (err, data) => {
                   // Add header to the beginning
                   modifiedHtml = modifiedHtml.replace(
                     "<body>",
-                    "<body>" + headerString,
+                    "<body>" + headerString + "<div id='content'>",
                   );
 
                   // Metadata
