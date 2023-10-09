@@ -31,18 +31,18 @@ fetch("posts.json")
       preview.textContent = sentences.slice(0, 10).join(" ");
 
       // create button element
+      let a = document.createElement("a");
+      a.href = element.url;
       let button = document.createElement("button");
       button.className = "mui-btn mui-btn--primary mui-btn--raised";
       button.textContent = "Read More";
-      button.onclick = function () {
-        window.location = element.url;
-      };
+      a.appendChild(button);
 
       // put it all together
       panelDiv.appendChild(title);
       panelDiv.appendChild(date);
       panelDiv.appendChild(preview);
-      panelDiv.appendChild(button);
+      panelDiv.appendChild(a);
       postsContainer.appendChild(panelDiv);
     });
   })
