@@ -41,6 +41,11 @@
     text-shadow: 1px 1px 2px #0000006c;
 }
 
+body a:hover {
+    text-decoration: none;
+}
+
+
 .date {
     margin-top: 0px;
     letter-spacing: 3px;
@@ -74,6 +79,10 @@ body {
     text-shadow: 1px 1px 2px #000000;
     text-align: justify;
     line-height: 180%;
+}
+
+#content a {
+    font-weight: bold;
 }
 
 #contentFrame {
