@@ -66,7 +66,8 @@ fs.readFile("header.html", "utf8", (err, data) => {
               process.exit();
             }
 
-            let htmlFileName = file.replace(".md", "") + ".html";
+            let htmlFileName = file.replace(".md", "").replaceAll(" ", "_") +
+              ".html";
 
             const outputStream = fs.createWriteStream(
               htmlOutputPath + htmlFileName,

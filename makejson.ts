@@ -41,7 +41,7 @@ class BlogPost {
       console.error(error);
     }
 
-    this.url = htmlPath + file.replace(/ /g, "%20").replace(".md", ".html");
+    this.url = htmlPath + file.replace(/ /g, "_").replace(".md", ".html");
   }
 
   getDate(): Date {
