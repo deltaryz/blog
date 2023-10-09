@@ -126,7 +126,8 @@ fs.readFile("header.html", "utf8", (err, data) => {
                     </div></div>
                     <br/>
                     <div id="copyright">© 2023 - ` + new Date().getFullYear() +
-                      ` Cameron Seid</div><br/><br/>
+                      ` Cameron Seid
+                      <br/>me @ deltaryz.com</div><br/><br/>
                     <script src='../post.js'></script></body>
                     `,
                   );
