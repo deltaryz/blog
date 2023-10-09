@@ -14,6 +14,8 @@ kadjfkdaj flaksdjf aksdjf lkdsfjadslkfjlskdf jlkdsfjl sadkfj alkdsfjlsdak f.
 
 ```js
 console.log("hello super duper mega gay stinky world fuck you bitch" + 5);
+let testVar = 3;
+console.log(testVar + 49 + "idfk random shit");
 ```
 
 I am testing. testing. Hello there I am testing and typing random words. These are words that are going to fill space. Lorem ipsum type beat up in this motherfucker. Fuck you. Go to hell. I'm so fucking gay.

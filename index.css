@@ -77,10 +77,10 @@ body {
     margin: 20px auto;
     margin-top: 25px;
     border-radius: 10px;
-    max-width: 59%;
+    max-width: 810px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 868px) {
     #contentFrame {
         max-width: 94%;
         /* Remove the maximum width on small screens */
@@ -109,8 +109,13 @@ p img {
     filter: drop-shadow(2px 2px 1px rgb(0, 0, 0));
 }
 
-code {
+pre {
     background-color: #0000003d;
     border-radius: 5px;
     padding: 10px;
+    margin-bottom: 20px;
+}
+
+code {
+    white-space: pre-wrap;
 }
