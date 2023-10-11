@@ -30,27 +30,6 @@ The main takeaway was this time, I had to keep my dependencies extremely minimal
 
 As an alternative to Materialize, I discovered [MUI CSS](https://www.muicss.com/) which is wonderful. It's nothing overkill or complicated, it is essentially just some pre-made CSS classes that implement Material styling in a deliciously non-intrusive way. I already became familiar with it working on [e669-neo](https://github.com/deltaryz/e669-neo), meaning I was not learning any brand-new technologies to create this blog.
 
-# The Nature of Web Development
-
-Web development is some weird hybrid of programming, markup, graphic design, and forbidden dark magic. Your projects tend to have complex relationships of files in a wide variety of formats (sometimes nested inside different formats), including several unique filetypes just for the favicon. This blog has the following in its root directory alone:
-
-* .md
-* .html
-* .webmanifest
-* .js
-* .json
-* .css
-* .ico
-* .xml
-* .sh
-
-It's a god damn mess. There are a practically infinite number of different ways that a given behavior could be implemented, leveraging a practically infinite number of different languages, language supersets, and abstraction layers. Each one of those things pulls in its own nested fractal of dependencies made with everything ever. For this Halloween, I will be dressing up as `node_modules`.
-
-I do like TypeScript, because it makes object-oriented programming and type safety a little more straightforward without actually sabotaging the anarchistic nature of JavaScript programming. You can still pretty much get away with anything, it just feels like some extra optional tools to help you do that cleaner. No downsides, really.
-
-Web browsers shouldn't exist. Who thought it was a good idea to make it so that arbitrary executable code can be instantly download and run from anywhere? The security and privacy related consequences of this design are being felt by all of humanity. But they revolutionized the world, for better and worse.
-
-The only thing anyone needs to do to experience my creation is press a link. They don't need to install anything, it doesn't matter if they are using a phone or a computer, they can easily look at it. Nothing else achieves that level of accessibility. And I suppose there is a narcissistic part of me that likes the increased chances of my thing actually being looked at.
 
 # The Core Objective
 
