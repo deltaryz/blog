@@ -33,7 +33,7 @@ fetch("posts.json")
       // trim to only a few sentences
       const sentenceRegex = /[^.!?]+[.!?]+/g;
       const sentences = element.text.match(sentenceRegex);
-      preview.textContent = sentences.slice(0, 10).join(" ");
+      preview.textContent = sentences.slice(0, 7).join(" ");
 
       // create button element
       let a = document.createElement("a");

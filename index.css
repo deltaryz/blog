@@ -39,6 +39,8 @@
     margin-top: 5px;
     color: #000000c5;
     text-shadow: 1px 1px 2px #0000006c;
+    font-size: 26px;
+    line-height: 120%;
 }
 
 body a:hover {
@@ -87,7 +89,7 @@ body {
 
 #contentFrame {
     /* background-color: #0000004d; */
-    background-image: linear-gradient(0deg, #00000062, #ffffff1f);
+    background-image: linear-gradient(0deg, #0000004f, #ffffff1f);
     box-shadow: 3px 3px 5px #00000071;
     margin: 20px auto;
     margin-top: 25px;
