@@ -1,18 +1,17 @@
 {
-  "version": "2",
-  "remote": {},
-  "npm": {
+  "version": "3",
+  "packages": {
     "specifiers": {
-      "@types/node@^20.4.1": "@types/node@20.5.4",
-      "fs-extra@^11.1.1": "fs-extra@11.1.1",
-      "fs@^0.0.1-security": "fs@0.0.1-security",
-      "markdown-to-html@^0.0.13": "markdown-to-html@0.0.13",
-      "path@^0.12.7": "path@0.12.7",
-      "remove-markdown@^0.5.0": "remove-markdown@0.5.0",
-      "tsx@^3.12.7": "tsx@3.12.7",
-      "typescript@^5.1.6": "typescript@5.1.6"
+      "npm:@types/node@^20.4.1": "npm:@types/node@20.5.4",
+      "npm:fs-extra@^11.1.1": "npm:fs-extra@11.1.1",
+      "npm:fs@^0.0.1-security": "npm:fs@0.0.1-security",
+      "npm:markdown-to-html@^0.0.13": "npm:markdown-to-html@0.0.13",
+      "npm:path@^0.12.7": "npm:path@0.12.7",
+      "npm:remove-markdown@^0.5.0": "npm:remove-markdown@0.5.0",
+      "npm:tsx@^3.12.7": "npm:tsx@3.12.7",
+      "npm:typescript@^5.1.6": "npm:typescript@5.1.6"
     },
-    "packages": {
+    "npm": {
       "@esbuild-kit/cjs-loader@2.4.2": {
         "integrity": "sha512-BDXFbYOJzT/NBEtp71cvsrGPwGAMGRB/349rwKuoxNSiKjPraNNnlK6MIIabViCjqZugu6j+xeMDlEkWdHHJSg==",
         "dependencies": {
@@ -605,6 +604,21 @@
         "integrity": "sha512-7OGt4xXoWJQh5ulgZ78rKaqY7dNWbjfK+UKxGcIlaM2j7C4fqGchyv8CPvEWdRPrHp6Ula/YU8yGRpYGOHrI+g==",
         "dependencies": {}
       }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@types/node@^20.4.1",
+        "npm:fs-extra@^11.1.1",
+        "npm:fs@^0.0.1-security",
+        "npm:markdown-to-html@^0.0.13",
+        "npm:path@^0.12.7",
+        "npm:remove-markdown@^0.5.0",
+        "npm:tsx@^3.12.7",
+        "npm:typescript@^5.1.6"
+      ]
     }
   }
 }
