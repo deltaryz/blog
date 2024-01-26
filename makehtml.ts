@@ -154,6 +154,11 @@ fs.readFile("header.html", "utf8", (err, data) => {
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name='theme-color' content='#5B2A9C' />
 
+    <!-- Prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <!-- discord/twitter embeds -->
     <meta property="og:title" content="∆•RYZ - ` + postTitle + `">
     <meta property="og:description"
