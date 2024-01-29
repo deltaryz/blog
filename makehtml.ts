@@ -122,13 +122,14 @@ fs.readFile("header.html", "utf8", (err, data) => {
                   let modifiedHtml = data.replace(
                     "</body>",
                     `
-                    <br/>
-                    </div></div>
-                    <br/>
-                    <div id="copyright">© 2023 - ` + new Date().getFullYear() +
-                      ` Cameron Seid
-                      <br/>me @ deltaryz.com</div><br/><br/>
-                    <script src='../post.js'></script></body>
+<br/>
+</div></div>
+<br/>
+<div id="copyright">© 2023 - ` + new Date().getFullYear() +
+  ` Cameron Seid
+  <br/>me @ deltaryz.com</div><br/><br/>
+<script src='../post.js'></script></body>
+
                     `,
                   );
 
@@ -178,7 +179,7 @@ fs.readFile("header.html", "utf8", (err, data) => {
     <link href='//cdn.muicss.com/mui-0.10.3/css/mui.min.css' rel='stylesheet' type='text/css' />
     <script src='//cdn.muicss.com/mui-0.10.3/js/mui.min.js'></script>
 
-    <link rel='stylesheet' href='index.css'>
+    <script src="../microlight.js"></script>
 
 </head>
                   `,
