@@ -43,7 +43,7 @@ You can also configure hostname, wi-fi, locale, and SSH settings in the same men
 
 ![Raspberry Pi Imager Pre-Config](../img/piusbserial/imagerlogin.png)
 
-If you intend to use the serial connection for something besides terminal access, I strongly recommend configuring wi-fi and SSH and using that as your main entrypoint. Unfortunately, running *that* directly through USB instead of wi-fi is complicated - see the bottom of this page for details on that.
+If you intend to use the serial connection for [something besides terminal access](#custom-serial-communication), I strongly recommend configuring wi-fi and SSH and using that as your main entrypoint. Unfortunately, running *that* directly through USB instead of wi-fi is complicated - see the bottom of this page for details on that.
 
 ## 2. `config.txt` and `cmdline.txt`
 
@@ -61,9 +61,9 @@ These settings tell the Raspberry Pi to enable its serial-over-USB features. You
 
 This will allow us to control the Pi via a familiar Bash terminal, but communicated through the serial connection. This is one of the most simple and OS-agnostic ways to have a controllable terminal via USB connection.
 
-**If this is not your desired functionality, you may skip to the next section titled "Custom Serial Communication".**
+**If this is not your desired functionality, you may skip to the next section titled "[Custom Serial Communication](#custom-serial-communication)".**
 
-If you're on **Linux**, we can do this part straight from the computer before turning on the Pi. Skip to "Linux PC Instructions".
+If you're on **Linux**, we can do this part straight from the computer before turning on the Pi. Skip to "[Linux PC Instructions](#linux-pc-instructions)".
 
 If you're on **Windows** or **Mac**, you'll need to do this on the Pi itself. You can thank Microsoft/Apple for refusing to implement an ext4 driver. Linux users can also do it this way if desired.
 
@@ -86,9 +86,9 @@ Now run `sudo reboot` to reboot the Pi, ensuring the configuration is saved.
 We are going to mount the second partition ("`root`") into a folder, and create a symlink that will enable the `getty` service on `ttyGS0`.
 
 1. `sudo su` - Log in as the root user
-2. `fdisk -l` - This lists all drives on your computer and their corresponding 'drive letters'. Determine which device corresponds to the Pi's SD card - in my case it is `/dev/sdf`, with `/dev/sdf2` being the root partition
+2. `fdisk -l` - This lists all drives on your computer and their corresponding drive paths. Determine which device corresponds to the Pi's SD card - in my case it is `/dev/sdf`, with `/dev/sdf2` being the root partition. Some readers may also be assigned `/dev/mmcblk`_, with _ being a number.
 3. `mkdir root` - Create a folder named "root" in the current directory
-4. `mount /dev/sd`_`2 root` - **Replace the _ with your SD card's drive letter** - Mount the partition into that folder we just created
+4. `mount /dev/[yourdevice]2 root` - **Replace [yourdevice] with your SD card's drive path, such as `/dev/sdf2` or `/dev/mmcblk0p2`** - Mount the second partition into that folder we just created
 5. `cd root/etc/systemd/system` - Navigate to /etc/systemd/system on the SD card
 6. `mkdir getty.target.wants` - Create a folder named "getty.target.wants"
 7. `cd getty.target.wants` - Navigate into that folder
@@ -137,7 +137,7 @@ If this was your desired functionality, congratulations, you're done. Scroll dow
 
 # Custom Serial Communication
 
-Instead of using the serial connection to control a terminal, you can use it to have programs communicate between the Pi and the comptuer it's connected to. Keep in mind that it can only perform one of these tasks at a time, you **cannot** have both an interactive terminal and a program communicating through serial at the same time.
+Instead of using the serial connection to control a terminal, you can use it to have programs communicate between the Pi and the computer it's connected to. Keep in mind that it can only perform one of these tasks at a time, you **cannot** have both an interactive terminal and a program communicating through serial at the same time.
 
 If you already completed step 3 and onwards of the previous section, you will need to revert that to free up the serial connection so we can instead configure something else. That is as simple as running `sudo systemctl disable getty@ttyGS0.service` and then `sudo reboot`.
 
@@ -149,7 +149,7 @@ You will need [Python](https://www.python.org/downloads/) and its package manage
 
 After `python` and `pip` are installed on both ends, you will also need to run `python -m pip install pyserial` on both machines, to obtain the serial communication library.
 
-Here are two different scripts, one for the host PC, and another for the Raspberry Pi. If you are on Mac or Linux, you will need to replace `COM3` in the host script with the proper device identifier on your system (instructions on acquiring that are in the previous section).
+Here are two different scripts, one for the host PC, and another for the Raspberry Pi. If you are on Mac or Linux, you will need to replace `COM3` in the host script with the proper device identifier on your system (instructions on acquiring that are in [the previous section](#windows)).
 
 ### Host PC Script
 
