@@ -121,7 +121,7 @@ Press Open, and you should be presented with a terminal. If it's blank, press En
 ![Windows Device Manager and PuTTY Configuration](../img/piusbserial/windowsputtyconfig.png)
 ![PuTTY Login](../img/piusbserial/puttylogin.png)
 
-If this was your desired functionality, congratulations, you're done. Scroll down for custom programming over serial.
+If this was your desired functionality, congratulations, you're done. [Scroll down](#custom-serial-communication) for custom programming over serial.
 
 ### Mac & Linux
 
