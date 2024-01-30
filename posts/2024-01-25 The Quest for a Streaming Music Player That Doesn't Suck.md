@@ -12,6 +12,8 @@ Back in high school, I did things the caveman way - I manually copied files onto
 
 There are a variety of reasons I did that and I won't get into them now, but the consequence of switching to iPhone was that I needed to find a new solution for my music. This also came with the additional restriction of no longer having a microSD slot, so the bigger my library gets, the harder it becomes to fit on an iPhone.
 
+![Music Folder Size](../img/musicplayer/musicfolder.png)
+
 Which means, ideally, the music shouldn't have to live on the phone at all. Hey, wouldn't it be nice if my phone and my computer could stay in sync so I didn't have to manually copy things back and forth?
 
 **Ding dong!** Here comes Apple with what seems like the perfect solution. Their Apple Music service allows you to upload your own music, and stream it from the cloud. You can easily cache specific songs/albums/playlists for offline listening, and your manually uploaded music coexists seamlessly with songs from the Apple Music service. Even more cool, because my DJ software integrates with Apple Music, **any playlists I create on my phone will automatically sync with my DJ software on my laptop**. That is an extremely useful and good feature.
