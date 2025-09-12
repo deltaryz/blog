@@ -2,7 +2,7 @@
 // This is possibly one of the dirtiest and most cursed things I've written.
 
 import fs from "fs-extra";
-import path from "path";
+import path from "node:path";
 import md from "markdown-to-html";
 const Markdown = md.Markdown;
 
