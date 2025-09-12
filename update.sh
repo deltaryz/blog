@@ -5,6 +5,8 @@
 # This script is for my Caddy webserver
 # Caddy will be configured to run this automatically whenever the site updates
 
+git config --global add safe.directory /srv/blog.deltaryz.com
+
 # Generate website assets
 deno task build
 
