@@ -8,6 +8,7 @@
 git config --global add safe.directory /srv/blog.deltaryz.com
 
 # Generate website assets
+deno install
 deno task build
 
 # This makes sure caddy will still be able to git pull over it
