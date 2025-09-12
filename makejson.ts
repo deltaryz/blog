@@ -2,7 +2,7 @@
 // this is used to construct the front page's list of posts
 
 import fs from "node:fs";
-import path from "path";
+import path from "node:path";
 import { execSync } from "node:child_process";
 import removeMarkdown from "remove-markdown";
 
