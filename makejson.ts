@@ -76,9 +76,12 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
     let firstLine = "";
     let text = "";
 
-    fileStream.on("data", (chunk: string) => {
+    fileStream.on("data", (chunk: string | Buffer) => {
+      // ensure chunk is a string
+      const chunkString = chunk.toString();
+
       // array of each line
-      const lines = chunk.split("\n");
+      const lines = chunkString.split("\n");
 
       // Read the first line from the file
       firstLine = lines[0];
@@ -140,7 +143,7 @@ fs.readdir(
       const jsonPosts = JSON.stringify(posts);
 
       // write json to file
-      fs.writeFile(jsonFilePath, jsonPosts, (err: Error) => {
+      fs.writeFile(jsonFilePath, jsonPosts, (err: NodeJS.ErrnoException | null) => {
         if (err) {
           console.error("Error writing JSON file: ", err);
           return;
