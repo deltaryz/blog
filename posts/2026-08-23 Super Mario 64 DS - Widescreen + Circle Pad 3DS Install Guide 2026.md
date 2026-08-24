@@ -80,4 +80,4 @@ Press `(X)` to save, and then...
 
 ## 6. Boot the game
 
-It's-a me, Mario!
+*It's-a me, Mario!*
