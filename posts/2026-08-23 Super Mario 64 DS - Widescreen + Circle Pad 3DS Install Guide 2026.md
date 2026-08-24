@@ -66,6 +66,16 @@ For convenience, I have taken the liberty to combine DeadSkullzJr's [NDS(i) Chea
 
 Alternatively, the individual action replay code files, as well as a usable [usrcheat.dat](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/raw/refs/heads/master/action_replay_codes/usrcheat.dat) file for exclusively those codes, are available in [shocoman's GitHub](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/tree/master/action_replay_codes).
 
+### Merging Cheat Files
+
+If you have an **existing cheat file** you would like to merge, I have also prepared a usrcheat.dat [merging tool](../img/sm64dsws/merge_usrcheat.py) in Python, which can be used to combine any separate usrcheat.dat files into a single file.
+
+They will be listed in TWiLightMenu++ in the same order they are given to the script.
+
+Usage: `python3 merge_usrcheat.py <output-filename.dat> [input-file1.dat] [input-file2.dat] [input-file3.dat] (...)`
+
+**DISCLAIMER**: *This tool was written by Claude Sonnet 5. I have rather extensively tested it and I am confident it should be usable, but your mileage may vary. Use at your own risk, make backups.*
+
 ## 5. Enable 16:10 and Cheats in TWiLightMenu++
 
 ![TWiLight Menu++ Game Config for SM64DS](../img/sm64dsws/twilightmenumenu.png)
@@ -74,7 +84,7 @@ Boot TWiLightMenu++, find the icon for SM64DS, and press `(Y)`.
 
 Scroll to the bottom and set `Screen Aspect Ratio` to `16:10`.
 
-With this menu still open, press `(X)` to access the Cheats menu, and enable the appropriate code for your system.
+With this menu still open, press `(X)` to access the Cheats menu, select `Controls`, and enable the appropriate code for your system.
 
 Press `(X)` to save, and then...
 
