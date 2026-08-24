@@ -130,6 +130,13 @@ p img {
     filter: drop-shadow(2px 2px 1px rgb(0, 0, 0));
 }
 
+p video {
+    max-width: 100%;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    filter: drop-shadow(2px 2px 1px rgb(0, 0, 0));
+}
+
 pre {
     background-color: #0000003d;
     border-radius: 5px;

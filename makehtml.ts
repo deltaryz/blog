@@ -140,6 +140,16 @@ fs.readFile("header.html", "utf8", (err, data) => {
                       "<div id='contentFrame'><div id='content'>",
                   );
 
+                  // markdown has no native video syntax, so we abuse image
+                  // syntax instead: ![caption](something.mp4) renders as
+                  // <img src="something.mp4" alt="caption">, which we swap
+                  // for a real <video> tag here. playsinline is required or
+                  // ios safari force-fullscreens the autoplay.
+                  modifiedHtml = modifiedHtml.replace(
+                    /<img src="([^"]+\.mp4)" alt="([^"]*)"[^>]*>/g,
+                    '<video src="$1" autoplay muted loop playsinline title="$2"></video>',
+                  );
+
                   // Metadata
                   modifiedHtml = modifiedHtml.replace(
                     "</head>",
