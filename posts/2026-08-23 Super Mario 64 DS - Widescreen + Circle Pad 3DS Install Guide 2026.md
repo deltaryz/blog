@@ -43,6 +43,10 @@ SM64DS has **unique patches** that are not linked here. We will address that nex
 
 Make sure to do **every step** in the "Installing" section, the second half will ensure that the widescreen patches only apply when you manually enable them per-game - **most games will not function with them enabled**.
 
+### You should finish this step with the following files on your SD card:
+- `sd:/_nds/TWiLightMenu/TwlBg/Widescreen.cxi`
+- `sd:/luma/sysmodules/TwlBg.cxi`
+
 Personally, I'm not a fan of the alternate scaling modes. They can look crisper in some situations, but they all suffer from situational scaling artifacts - the default scaler, though it is generally a bit blurry, looks the most uniform across all graphics.
 
 ## 3. [Apply](https://www.marcrobledo.com/RomPatcher.js/) the [SM64DS widescreen patch](../img/sm64dsws/sm64ws_recoded.xdelta)
