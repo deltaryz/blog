@@ -62,7 +62,7 @@ Place on your 3DS SD at `sd:/roms/nds/SM64DS Widescreen.nds`.
 
 Place the [cheat file](../img/sm64dsws/usrcheat.dat) in `sd:/_nds/TWiLightMenu/extras/usrcheat.dat`.
 
-For convenience, I have taken the liberty to combine DeadSkullzJr's [NDS(i) Cheat Database](https://gbatemp.net/threads/deadskullzjrs-nds-i-cheat-databases.488711/), version 2026-07-23, with the [SM64DS Input Codes](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/tree/master/action_replay_codes). 
+For convenience, I have taken the liberty to combine DeadSkullzJr's [NDS(i) Cheat Database](https://gbatemp.net/threads/deadskullzjrs-nds-i-cheat-databases.488711/), version 2026-07-23, with shocoman's [SM64DS input codes](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/tree/master/action_replay_codes) and [other game input codes](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/tree/master/patches_for_other_games) into a comprehensive all-in-one cheat file.
 
 Alternatively, the individual action replay code files, as well as a usable [usrcheat.dat](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/raw/refs/heads/master/action_replay_codes/usrcheat.dat) file for exclusively those codes, are available in [shocoman's GitHub](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/tree/master/action_replay_codes).
 
