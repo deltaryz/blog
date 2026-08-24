@@ -154,3 +154,10 @@ code {
     padding:3px;
     border-radius: 5px;
 }
+
+h2 {
+    padding-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #0000002a;
+}
