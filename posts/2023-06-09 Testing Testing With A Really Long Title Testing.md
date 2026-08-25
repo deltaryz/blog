@@ -23,7 +23,29 @@ I am testing. testing. Hello there I am testing and typing random words. These a
 
 ![image](../deltaryzlogo.png)
 
+:::spoiler Fucking Test Shit
+
+ssshhh this is a secret
+
+:::spoiler DO NOT ENTER
+what the fuck is wrong with you
+:::
+
+:::
+
 # Other Heading
+
+## Smaller Heading
+
+### Smallest Heading 
+
+shit
+
+### Smallest Heading 2 Electic Boogaloo
+
+## Smaller Heading (but cooler)
+
+# Other Other Heading
 
 kadjfkdaj flaksdjf aksdjf lkdsfjadslkfjlskdf jlkdsfjl sadkfj alkdsfjlsdak f.
 

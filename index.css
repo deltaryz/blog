@@ -161,3 +161,12 @@ h2 {
     padding-bottom: 5px;
     background-color: #0000002a;
 }
+
+/* spoilers */
+details.spoiler { border: 1px dashed #ffee0068; border-radius: 6px; padding: 0.5em 1em; margin: 1em 0; }
+details.spoiler summary { cursor: pointer; font-weight: bold; color: #ffee00; }
+details.spoiler[open] summary { margin-bottom: 0.5em; }
+
+details.spoiler details.spoiler {
+  padding-bottom: 0px;
+}

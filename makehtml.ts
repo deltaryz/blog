@@ -4,7 +4,79 @@
 import fs from "fs-extra";
 import path from "node:path";
 import md from "markdown-to-html";
+import marked from "npm:marked@0.3.2"; // same version markdown-to-html itself uses internally
 const Markdown = md.Markdown;
+
+// ==========================================================
+// spoiler syntax preprocessing (runs on RAW markdown, not the
+// rendered html -- markdown-to-html sets `breaks: true` on marked,
+// so lines without a blank line between them collapse into one <p>
+// joined by <br>, which makes post-render regex matching unreliable.
+// instead we pull spoiler blocks out of the source before marked
+// ever sees them, render each one's body independently (with the
+// same marked options as the rest of the pipeline), and swap in a
+// placeholder token that gets replaced with the real html after
+// normal rendering. a real stack (not a single regex) is used so
+// nested spoilers resolve correctly by depth.
+//
+// syntax:
+// :::spoiler Title Here
+// hidden content, markdown works fine in here
+// :::spoiler nested title
+// this can nest arbitrarily deep
+// :::
+// :::
+// ==========================================================
+function extractSpoilers(text: string): { text: string; spoilers: string[] } {
+  const lines = text.split("\n");
+  const spoilers: string[] = [];
+  const output: string[] = [];
+  const stack: { title: string; bodyLines: string[] }[] = [];
+
+  const pushToCurrent = (line: string) => {
+    if (stack.length > 0) {
+      stack[stack.length - 1].bodyLines.push(line);
+    } else {
+      output.push(line);
+    }
+  };
+
+  for (const line of lines) {
+    const openMatch = line.match(/^:::spoiler(?:[ \t]+(.*))?$/);
+    const closeMatch = line.match(/^:::[ \t]*$/);
+
+    if (openMatch) {
+      stack.push({
+        title: (openMatch[1] || "Spoiler").trim(),
+        bodyLines: [],
+      });
+    } else if (closeMatch && stack.length > 0) {
+      const finished = stack.pop()!;
+      const bodyText = finished.bodyLines.join("\n");
+      marked.setOptions({
+        gfm: true,
+        breaks: true,
+        tables: true,
+        sanitize: true,
+      });
+      const bodyHtml = marked(bodyText);
+      const idx = spoilers.length;
+      spoilers.push(
+        `<details class="spoiler"><summary>${finished.title}</summary>${bodyHtml}</details>`,
+      );
+      // pad with blank lines so marked always isolates the placeholder
+      // into its own standalone <p>, regardless of surrounding content
+      // or the breaks:true line-joining behavior
+      pushToCurrent("");
+      pushToCurrent(`%%%SPOILER_${idx}%%%`);
+      pushToCurrent("");
+    } else {
+      pushToCurrent(line);
+    }
+  }
+
+  return { text: output.join("\n"), spoilers };
+}
 
 // relative to current working directory
 const mdPath = "posts/";
@@ -55,12 +127,21 @@ fs.readFile("header.html", "utf8", (err, data) => {
             file.indexOf(" ") + 1,
           );
 
+          const rawMd = fs.readFileSync(filePath, "utf8");
+          const { text: processedMd, spoilers } = extractSpoilers(rawMd);
+
+          // write the preprocessed markdown to a temp file IN THE SAME
+          // DIRECTORY so relative image/video paths in the post still
+          // resolve correctly
+          const tempPath = path.join(mdPath, "." + file + ".spoilertmp");
+          fs.writeFileSync(tempPath, processedMd, "utf8");
+
           var md = new Markdown();
           var opts = {
             title: "∆•RYZ - " + postTitle,
             stylesheet: "../index.css",
           };
-          md.render(filePath, opts, function (err) {
+          md.render(tempPath, opts, function (err) {
             if (err) {
               console.error(">>>" + err);
               process.exit();
@@ -80,6 +161,9 @@ fs.readFile("header.html", "utf8", (err, data) => {
                 "HTML content has been saved to " + htmlOutputPath +
                   htmlFileName,
               );
+
+              // temp file no longer needed
+              fs.unlink(tempPath, () => {});
 
               fs.readFile(
                 htmlOutputPath + htmlFileName,
@@ -126,7 +210,7 @@ fs.readFile("header.html", "utf8", (err, data) => {
 </div></div>
 <br/>
 <div id="copyright">© 2023 - ` + new Date().getFullYear() +
-  ` Cameron Seid
+                      ` Cameron Seid
   <br/>me @ deltaryz.com</div><br/><br/>
 <script src='../post.js'></script></body>
 
@@ -149,6 +233,20 @@ fs.readFile("header.html", "utf8", (err, data) => {
                     /<img src="([^"]+\.mp4)" alt="([^"]*)"[^>]*>/g,
                     '<video src="$1" autoplay muted loop playsinline title="$2"></video>',
                   );
+
+                  // restore real spoiler html in place of the placeholders.
+                  // MUST go in reverse (outermost/highest index first) --
+                  // a nested spoiler's placeholder is embedded INSIDE its
+                  // parent's stored html string until the parent itself
+                  // gets spliced into modifiedHtml, so resolving parents
+                  // before children is what actually surfaces the child
+                  // placeholder text for this same loop to catch.
+                  for (let idx = spoilers.length - 1; idx >= 0; idx--) {
+                    modifiedHtml = modifiedHtml.replace(
+                      `<p>%%%SPOILER_${idx}%%%</p>`,
+                      spoilers[idx],
+                    );
+                  }
 
                   // Metadata
                   modifiedHtml = modifiedHtml.replace(
@@ -177,7 +275,7 @@ fs.readFile("header.html", "utf8", (err, data) => {
     <meta property="og:image" content="https://blog.deltaryz.com/android-chrome-512x512.png">
     <meta property="og:url" content="` + htmlLink + `">
     <meta property="og:type" content="website">
-  
+
     <!-- Twitter Card meta tags -->
     <meta name="twitter:title" content="∆•RYZ - ` + postTitle + `">
     <meta name="twitter:description"
