@@ -1,4 +1,4 @@
-# Super Mario 64 DS - Widescreen + Circle Pad 3DS Install Guide 2026
+# Super Mario 64 DS - Widescreen + Circle Pad 3DS Install Guide 2026 (+ More Games)
 
 Finally. How the game was meant to be played.
 
