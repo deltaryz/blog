@@ -6,3 +6,4 @@ test.html
 html/
 p/
 deno.lock
+._.DS_Store
