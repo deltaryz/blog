@@ -15,12 +15,14 @@ I prefer to be verbose and explain the reasons behind everything we do. If you w
 Existing guides you might be finding online tend to be **outdated** or **incorrect**. I hope this guide can clear up any confusion and get you into Bob-Omb Battlefield as painlessly as possible.
 
 This guide was made possible thanks to:
-- [TWiLightMenu++](https://github.com/DS-Homebrew/TWiLightMenu) and the [DS-Homebrew](https://wiki.ds-homebrew.com/) developers
+- [TWiLightMenu++](https://github.com/DS-Homebrew/TWiLightMenu), [RocketRobz](https://github.com/RocketRobz) and the [DS-Homebrew](https://wiki.ds-homebrew.com/) developers
 - [shocoman](https://github.com/shocoman) for the [3DS controls](https://github.com/shocoman/Analog-Controls-for-NDS-Games-on-3DS/tree/master/action_replay_codes)
 - Whoever made the widescreen patch, wish I knew
+- MechanicalDragon's [ndsForwarder](https://github.com/MechanicalDragon0687/ndsForwarder)
 - DeadSkullzJr's [NDS(i) Cheat Database](https://gbatemp.net/threads/deadskullzjrs-nds-i-cheat-databases.488711/)
 - LumaTeam's [Luma3DS](https://github.com/LumaTeam/Luma3DS)
 - SciresM's [boot9strap](https://github.com/SciresM/boot9strap)
+- [Universal Updater](https://universal-team.net/projects/universal-updater) and its [developers](https://universal-team.net/about)
 - [3DS Hacks Guide](https://3ds.hacks.guide/) and its [maintainers](https://3ds.hacks.guide/credits.html)
 
 # How To Install
@@ -88,6 +90,45 @@ With this menu still open, press `(X)` to access the Cheats menu, select `Contro
 
 Press `(X)` to save, and then...
 
-## 6. Boot the game
+:::spoiler OPTIONAL: 3DS Home Screen Forwarder
+
+If you would like to boot DS games from your **3DS Home Screen** instead of going through **TWiLightMenu++**, complete the following additional steps:
+
+## 6. Install Forwarders
+
+If you did not already get [Universal Updater](https://universal-team.net/projects/universal-updater) when completing Step 1, you will need to install it now.
+
+In **Universal Updater**, search `ndsforwarder` and install **BOTH** of the following:
+- `DS Forwarder Packs` by **RocketRobz**
+- `ndsForwarder` by **MechanicalDragon / Volkan Turkut**
+
+Then, exit and boot **The Homebrew Launcher**. Find and select `NDS Forwarder Generator`.
+
+![Forwarder Install](../img/sm64dsws/forwarderinstall.png)
+
+Find and select `SM64DS Widescreen.nds` (earlier we placed that in `sd:/roms/nds/`).
+
+This will install a home screen icon.
+
+![Forwarder Install 2](../img/sm64dsws/forwarderinstall2.png)
+
+## 7. Enable Widescreen and Cheats in ntr-forwarder
+
+### Boot SM64DS from the Home Screen while holding `(Y)`.
+
+Do not release Y until you see this screen:
+
+![NTR Forwarder Config](../img/sm64dsws/ntrforwarderconfig.png)
+
+- Set `Widescreen` to `On`
+- Press `(X)` to access Cheats
+- Enter the `Controls` menu
+- Enable `N3DS Controls` or `3DS Controls` depending on your console
+- Press `(X)` to save cheats
+- Press `START` to save all settings
+
+:::
+
+## Boot the game
 
 *It's-a me, Mario!*
