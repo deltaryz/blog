@@ -13,6 +13,36 @@ resulting HTML.
 
 ---
 
+Several custom syntax extensions have been added to allow our Markdown files to declare certain reusable  features with minimal typing required.
+
+**Spoiler sections**
+```
+:::spoiler Title displayed when rolled up
+spoiler content
+:::
+```
+**Tabs**
+```
+:::tabs category1
+alskdjfaksdlf
+:::tabs category2
+kasdjkfldjakf
+:::
+```
+
+**End main page preview early**
+```
+%%%
+```
+
+**File upload**
+```
+:::upload any_name_here
+```
+Use this name to create unique handling for each instance of the file upload. (HTML/CSS reused, JS logic per-use)
+
+---
+
 **AI Usage Disclaimer**
 
 This repository is a mixture of my own hand-written code, and features implemented by AI. Each commit is credited to either me or a specific AI model via `user.name`, such as `deepseek-v4.1-flash`.
