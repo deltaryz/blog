@@ -264,3 +264,20 @@ details.spoiler details.spoiler {
 #content table> :last-child>tr:last-child> :last-child {
     border-bottom-right-radius: 7px;
 }
+
+/* quote blocks: discord-style bar on the left, indented, faintly blue text,
+   dark code-block-like background that fades out to the right */
+#content blockquote {
+    margin: 10px 0 20px;
+    padding: 10px 16px;
+    border-left: 4px solid #0000008b;
+    border-radius: 3px;
+    background-image: linear-gradient(to right, #0000004a, #00000000);
+    color: #dbe6ff;
+}
+
+/* no extra gap under the last paragraph inside a quote */
+#content blockquote> :last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
