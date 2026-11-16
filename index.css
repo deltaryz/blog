@@ -282,3 +282,11 @@ details.spoiler details.spoiler {
     padding-bottom: 0;
     margin-bottom: 0;
 }
+
+/* center every image in posts, no resizing
+   (to only center wide ones again, change the selector to #content img.wide) */
+#content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
