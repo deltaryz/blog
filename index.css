@@ -221,7 +221,7 @@ details.spoiler details.spoiler {
 }
 
 #content td:nth-child(even) {
-    background-color: #ffffff1a;
+    background-color: #ffffff10;
 }
 
 /* round the corner cells so their tints follow the table's rounded corners */
