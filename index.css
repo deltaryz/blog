@@ -355,3 +355,65 @@ details.spoiler details.spoiler {
 #content .upload-drop.bad .upload-status {
     color: #ffee00;
 }
+
+/* tabbed containers (":::tabs Name" in a post): a row of tab buttons above
+   the panels, only the active panel is shown. switching is done by post.js */
+#content .tabs {
+    margin: 10px 0 20px;
+}
+
+#content .tab-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+/* inactive tabs: faint, the active one matches the panel background */
+#content .tab-button {
+    padding: 4px 14px;
+    border: none;
+    border-radius: 6px 6px 0 0;
+    background-color: #99999926;
+    color: #ffffffaa;
+    font: inherit;
+    font-weight: bold;
+    text-shadow: inherit;
+    cursor: pointer;
+}
+
+#content .tab-button:hover {
+    color: #ffffff;
+}
+
+#content .tab-button.active {
+    background-color: #0000003d;
+    color: #ffffff;
+}
+
+#content .tab-panel {
+    display: none;
+    padding: 10px;
+    border-radius: 0 6px 6px 6px;
+    background-color: #0000003d;
+}
+
+#content .tab-panel.active {
+    display: block;
+}
+
+/* code blocks already sit on the panel background, don't double up */
+#content .tab-panel pre {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* the browser gives <pre> (and <p>) a default top margin, which stacked on
+   the panel padding and made the top gap bigger than the other sides */
+#content .tab-panel> :first-child {
+    margin-top: 0;
+}
+
+#content .tab-panel> :last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}

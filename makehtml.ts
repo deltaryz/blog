@@ -26,50 +26,112 @@ const Markdown = md.Markdown;
 // this can nest arbitrarily deep
 // :::
 // :::
+//
+// tabbed containers use the same machinery. each :::tabs line starts a new
+// tab in the current group, one ::: closes the whole group:
+// :::tabs NES
+// content of the first tab
+// :::tabs SNES
+// content of the second tab
+// :::
+// a tab group can go inside a spoiler and vice versa, but a :::tabs line
+// directly inside an open tab always means "next tab", not a nested group.
 // ==========================================================
 function extractSpoilers(text: string): { text: string; spoilers: string[] } {
   const lines = text.split("\n");
   const spoilers: string[] = [];
   const output: string[] = [];
-  const stack: { title: string; bodyLines: string[] }[] = [];
 
-  const pushToCurrent = (line: string) => {
-    if (stack.length > 0) {
-      stack[stack.length - 1].bodyLines.push(line);
-    } else {
-      output.push(line);
-    }
+  // one stack for both block types so a ":::" always closes the innermost
+  // open block, whichever kind it is. `prefix` is the "> " quote prefix the
+  // opening line had: it is stripped from body lines and put back on the
+  // placeholder, so blocks also work inside > quotes.
+  type Spoiler = { kind: "spoiler"; prefix: string; title: string; bodyLines: string[] };
+  type Tabs = { kind: "tabs"; prefix: string; tabs: { title: string; bodyLines: string[] }[] };
+  const stack: (Spoiler | Tabs)[] = [];
+
+  const currentBody = (): string[] | null => {
+    const top = stack[stack.length - 1];
+    if (!top) return null;
+    return top.kind === "spoiler" ? top.bodyLines : top.tabs[top.tabs.length - 1].bodyLines;
   };
 
-  for (const line of lines) {
-    const openMatch = line.match(/^:::spoiler(?:[ \t]+(.*))?$/);
-    const closeMatch = line.match(/^:::[ \t]*$/);
+  const pushToCurrent = (line: string) => {
+    const body = currentBody();
+    if (body) body.push(line);
+    else output.push(line);
+  };
 
-    if (openMatch) {
+  const stripPrefix = (line: string, prefix: string) =>
+    prefix && line.startsWith(prefix.trimEnd())
+      ? line.substring(prefix.trimEnd().length).replace(/^ /, "")
+      : line;
+
+  const renderBody = (bodyLines: string[], prefix: string) => {
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+      tables: true,
+      sanitize: true,
+    });
+    return marked(bodyLines.map((l) => stripPrefix(l, prefix)).join("\n"));
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.replace(/\r$/, "");
+    // optional quote prefix ("> ", "> > ", ...) before the ::: syntax
+    const m = line.match(/^((?:>[ \t]?)*)(:::.*)$/);
+    const prefix = m ? m[1] : "";
+    const directive = m ? m[2] : "";
+    const spoilerOpen = directive.match(/^:::spoiler(?:[ \t]+(.*))?$/);
+    const tabOpen = directive.match(/^:::tabs(?:[ \t]+(.*))?$/);
+    const close = /^:::[ \t]*$/.test(directive);
+    const top = stack[stack.length - 1];
+
+    if (spoilerOpen) {
       stack.push({
-        title: (openMatch[1] || "Spoiler").trim(),
+        kind: "spoiler",
+        prefix,
+        title: (spoilerOpen[1] || "Spoiler").trim(),
         bodyLines: [],
       });
-    } else if (closeMatch && stack.length > 0) {
+    } else if (tabOpen) {
+      const title = (tabOpen[1] || "Tab").trim();
+      if (top && top.kind === "tabs") {
+        // another :::tabs line inside an open tab group starts the next tab
+        top.tabs.push({ title, bodyLines: [] });
+      } else {
+        stack.push({ kind: "tabs", prefix, tabs: [{ title, bodyLines: [] }] });
+      }
+    } else if (close && stack.length > 0) {
       const finished = stack.pop()!;
-      const bodyText = finished.bodyLines.join("\n");
-      marked.setOptions({
-        gfm: true,
-        breaks: true,
-        tables: true,
-        sanitize: true,
-      });
-      const bodyHtml = marked(bodyText);
+      let html: string;
+      if (finished.kind === "spoiler") {
+        html = `<details class="spoiler"><summary>${finished.title}</summary>${
+          renderBody(finished.bodyLines, finished.prefix)
+        }</details>`;
+      } else {
+        // first tab starts active so the group reads fine even without post.js
+        const buttons = finished.tabs.map((t, i) =>
+          `<button type="button" class="tab-button${i === 0 ? " active" : ""}">${t.title}</button>`
+        ).join("");
+        const panels = finished.tabs.map((t, i) =>
+          `<div class="tab-panel${i === 0 ? " active" : ""}">${
+            renderBody(t.bodyLines, finished.prefix)
+          }</div>`
+        ).join("");
+        html = `<div class="tabs"><div class="tab-buttons">${buttons}</div>${panels}</div>`;
+      }
       const idx = spoilers.length;
-      spoilers.push(
-        `<details class="spoiler"><summary>${finished.title}</summary>${bodyHtml}</details>`,
-      );
-      // pad with blank lines so marked always isolates the placeholder
-      // into its own standalone <p>, regardless of surrounding content
-      // or the breaks:true line-joining behavior
-      pushToCurrent("");
-      pushToCurrent(`%%%SPOILER_${idx}%%%`);
-      pushToCurrent("");
+      spoilers.push(html);
+      // pad so marked always isolates the placeholder into its own
+      // standalone <p>, regardless of surrounding content or the
+      // breaks:true line-joining behavior. inside a quote the padding has
+      // to be bare ">" lines, a truly blank line would end the quote.
+      const pad = finished.prefix.trimEnd();
+      pushToCurrent(pad);
+      pushToCurrent(`${finished.prefix}%%%SPOILER_${idx}%%%`);
+      pushToCurrent(pad);
     } else {
       pushToCurrent(line);
     }

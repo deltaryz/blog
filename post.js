@@ -238,3 +238,22 @@ document.querySelectorAll("#content .upload-drop").forEach(function (zone) {
         run(e.dataTransfer.files[0]);
     });
 });
+
+// ==========================================================
+// tabbed containers (":::tabs Name" in a post, see makehtml.ts)
+// clicking a tab button shows its panel and hides the others in that group
+// ==========================================================
+document.querySelectorAll("#content .tabs").forEach(function (group) {
+    var buttons = Array.prototype.filter.call(group.children[0].children, function (el) {
+        return el.classList.contains("tab-button");
+    });
+    var panels = Array.prototype.filter.call(group.children, function (el) {
+        return el.classList.contains("tab-panel");
+    });
+    buttons.forEach(function (button, i) {
+        button.addEventListener("click", function () {
+            buttons.forEach(function (b, j) { b.classList.toggle("active", i === j); });
+            panels.forEach(function (p, j) { p.classList.toggle("active", i === j); });
+        });
+    });
+});
