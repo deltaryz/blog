@@ -83,16 +83,81 @@ function downloadBytes(bytes, fileName) {
 // (same data as the .ips files). patchedCrc is checked after patching.
 var brickFixRoms = [
     {
+        name: "Super Mario All-Stars (Europe)",
+        size: 2097152,
+        crc: 0x925FFA69,
+        patchedCrc: 0xA8BB35A3,
+        patch: [
+            [0x07F80, "BDEE03F008C902F0016BDEEE03C220A30118691D008301E2206B"],
+            [0x1C027, "02"],
+            [0x1C10A, "2280FF00EA"],
+            [0x6BDC9, "02"],
+            [0x6BEB1, "2280FF00EA"],
+        ],
+    },
+    {
         name: "Super Mario All-Stars (USA)",
         size: 2097152,
         crc: 0x925637C7,
         patchedCrc: 0x844CDFFD,
         patch: [
+            [0x07F80, "BDEE03F008C902F0016BDEEE03C220A30118691D008301E2206B"],
             [0x1BFA5, "02"],
             [0x1C088, "2280FF00EA"],
             [0x6BD93, "02"],
             [0x6BE7B, "2280FF00EA"],
+        ],
+    },
+    {
+        name: "Super Mario All-Stars + Super Mario World (USA)",
+        size: 2621440,
+        crc: 0xF84305B1,
+        patchedCrc: 0x4F83F41C,
+        patch: [
             [0x07F80, "BDEE03F008C902F0016BDEEE03C220A30118691D008301E2206B"],
+            [0x1BFAD, "02"],
+            [0x1C090, "2280FF00EA"],
+            [0x6BD93, "02"],
+            [0x6BE7B, "2280FF00EA"],
+        ],
+    },
+    {
+        name: "Super Mario All-Stars and Super Mario World (Europe)",
+        size: 2621440,
+        crc: 0x303205D8,
+        patchedCrc: 0x6E4A5339,
+        patch: [
+            [0x07F80, "BDEE03F008C902F0016BDEEE03C220A30118691D008301E2206B"],
+            [0x1C027, "02"],
+            [0x1C10A, "2280FF00EA"],
+            [0x6BDC9, "02"],
+            [0x6BEB1, "2280FF00EA"],
+        ],
+    },
+    {
+        name: "Super Mario Collection (Japan) (Rev 1)",
+        size: 2097152,
+        crc: 0x91B28D56,
+        patchedCrc: 0x29D57213,
+        patch: [
+            [0x07F80, "BDEE03F008C902F0016BDEEE03C220A30118691D008301E2206B"],
+            [0x1BFAD, "02"],
+            [0x1C090, "2280FF00EA"],
+            [0x6BD72, "02"],
+            [0x6BE5A, "2280FF00EA"],
+        ],
+    },
+    {
+        name: "Super Mario Collection (Japan)",
+        size: 2097152,
+        crc: 0x232BB5B8,
+        patchedCrc: 0xEFD8C0BB,
+        patch: [
+            [0x07F80, "BDEE03F008C902F0016BDEEE03C220A30118691D008301E2206B"],
+            [0x1BFA5, "02"],
+            [0x1C088, "2280FF00EA"],
+            [0x6BD72, "02"],
+            [0x6BE5A, "2280FF00EA"],
         ],
     },
 ];
