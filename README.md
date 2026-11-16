@@ -11,5 +11,10 @@ Site builds HTML automatically from the Markdown files, no manual HTML editing
 is necessary. Run `npm run-script build` or `deno task build` to produce the
 resulting HTML.
 
-Disclaimer: There was a point I honestly stopped caring about doing things well.
-I have committed some atrocities here. It works, but, at what cost?
+---
+
+**AI Usage Disclaimer**
+
+This repository is a mixture of my own hand-written code, and features implemented by AI. Each commit is credited to either me or a specific AI model via `user.name`, such as `deepseek-v4.1-flash`.
+
+Honestly, my own code here was already terrible before AI got involved.
