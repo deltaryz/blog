@@ -170,3 +170,62 @@ details.spoiler[open] summary { margin-bottom: 0.5em; }
 details.spoiler details.spoiler {
   padding-bottom: 0px;
 }
+/* tables */
+#content table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 10px 0 25px;
+    background-color: #0000002a;
+    border-radius: 7px;
+    box-shadow: 3px 3px 5px #00000071;
+    line-height: 150%;
+}
+
+#content th,
+#content td {
+    padding: 6px 14px;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid #ffffff1a;
+}
+
+#content th + th,
+#content td + td {
+    border-left: 1px solid #ffffff1a;
+}
+
+#content thead th {
+    background-color: #bbbbbb2c;
+    letter-spacing: 1px;
+}
+
+#content tbody tr:nth-child(even) {
+    background-color: #ffffff0d;
+}
+
+#content tbody tr:hover {
+    background-color: #ffffff1f;
+}
+
+#content tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#content table.wide {
+    display: table;
+    width: 100%;
+}
+
+#content td:nth-child(even) {
+    background-color: #ffffff1a;
+}
+
+/* round the corner cells so their tints follow the table's rounded corners */
+#content table > :first-child > tr:first-child > :first-child { border-top-left-radius: 7px; }
+#content table > :first-child > tr:first-child > :last-child { border-top-right-radius: 7px; }
+#content table > :last-child > tr:last-child > :first-child { border-bottom-left-radius: 7px; }
+#content table > :last-child > tr:last-child > :last-child { border-bottom-right-radius: 7px; }
