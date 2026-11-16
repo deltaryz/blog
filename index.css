@@ -88,7 +88,7 @@ body {
 
 #content a {
     font-weight: bold;
-    color:#00ff2a;
+    color: #00ff2a;
 }
 
 #contentFrame {
@@ -146,12 +146,12 @@ pre {
 
 code {
     white-space: pre-wrap;
-    color:rgb(255, 207, 118);
+    color: rgb(255, 207, 118);
 }
 
-:not(pre) > code {
+:not(pre)>code {
     background-color: #00000038;
-    padding:3px;
+    padding: 3px;
     border-radius: 5px;
 }
 
@@ -163,14 +163,30 @@ h2 {
 }
 
 /* spoilers */
-details.spoiler { border: 1px dashed #ffee0068; border-radius: 6px; padding: 0.5em 1em; margin: 1em 0; }
-details.spoiler summary { cursor: pointer; font-weight: bold; color: #ffee00; }
-details.spoiler[open] summary { margin-bottom: 0.5em; }
+details.spoiler {
+    border: 1px dashed #ffee0068;
+    border-radius: 6px;
+    padding: 0.5em 1em;
+    margin: 1em 0;
+}
+
+details.spoiler summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffee00;
+}
+
+details.spoiler[open] summary {
+    margin-bottom: 0.5em;
+}
 
 details.spoiler details.spoiler {
-  padding-bottom: 0px;
+    padding-bottom: 0px;
 }
+
 /* tables */
+
+/* table box: translucent rounded panel with shadow; scrolls sideways if wider than the column */
 #content table {
     display: block;
     width: max-content;
@@ -185,6 +201,7 @@ details.spoiler details.spoiler {
     line-height: 150%;
 }
 
+/* all cells: padding, no wrapping, faint line under each row */
 #content th,
 #content td {
     padding: 6px 14px;
@@ -193,39 +210,57 @@ details.spoiler details.spoiler {
     border-bottom: 1px solid #ffffff1a;
 }
 
-#content th + th,
-#content td + td {
+/* faint divider line between columns */
+#content th+th,
+#content td+td {
     border-left: 1px solid #ffffff1a;
 }
 
+/* header row: solid lighter tint, matches the h1 box */
 #content thead th {
-    background-color: #bbbbbb2c;
+    background-color: #00000048;
     letter-spacing: 1px;
 }
 
+/* alternating row tint (body rows only) */
 #content tbody tr:nth-child(even) {
     background-color: #ffffff0d;
 }
 
+/* highlight the row under the mouse */
 #content tbody tr:hover {
     background-color: #ffffff1f;
 }
 
+/* no divider under the last row, the box edge is enough */
 #content tbody tr:last-child td {
     border-bottom: none;
 }
 
+/* tables over 80% of the column (class added by post.js): stretch to full width */
 #content table.wide {
     display: table;
     width: 100%;
 }
 
+/* alternating column tint (body cells only, header stays solid) */
 #content td:nth-child(even) {
     background-color: #ffffff10;
 }
 
 /* round the corner cells so their tints follow the table's rounded corners */
-#content table > :first-child > tr:first-child > :first-child { border-top-left-radius: 7px; }
-#content table > :first-child > tr:first-child > :last-child { border-top-right-radius: 7px; }
-#content table > :last-child > tr:last-child > :first-child { border-bottom-left-radius: 7px; }
-#content table > :last-child > tr:last-child > :last-child { border-bottom-right-radius: 7px; }
+#content table> :first-child>tr:first-child> :first-child {
+    border-top-left-radius: 7px;
+}
+
+#content table> :first-child>tr:first-child> :last-child {
+    border-top-right-radius: 7px;
+}
+
+#content table> :last-child>tr:last-child> :first-child {
+    border-bottom-left-radius: 7px;
+}
+
+#content table> :last-child>tr:last-child> :last-child {
+    border-bottom-right-radius: 7px;
+}
