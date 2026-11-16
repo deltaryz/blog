@@ -30,10 +30,15 @@ fetch("posts.json")
       // for styling
       preview.className = "preview";
 
-      // trim to only a few sentences
-      const sentenceRegex = /[^.!?]+[.!?]+/g;
-      const sentences = element.text.match(sentenceRegex);
-      preview.textContent = sentences.slice(0, 7).join(" ");
+      if (element.cut) {
+        // the post marked its own cutoff with a %%% line, show all of it
+        preview.textContent = element.text;
+      } else {
+        // trim to only a few sentences
+        const sentenceRegex = /[^.!?]+[.!?]+/g;
+        const sentences = element.text.match(sentenceRegex);
+        preview.textContent = sentences.slice(0, 7).join(" ");
+      }
 
       // create button element
       let a = document.createElement("a");

@@ -127,7 +127,10 @@ fs.readFile("header.html", "utf8", (err, data) => {
             file.indexOf(" ") + 1,
           );
 
-          const rawMd = fs.readFileSync(filePath, "utf8");
+          // a line containing only %%% is the front page preview cutoff
+          // (see makejson.ts), it should not show up in the post itself
+          const rawMd = fs.readFileSync(filePath, "utf8")
+            .replace(/^[ \t]*%%%[ \t]*\r?$\n?/gm, "");
           const { text: processedMd, spoilers } = extractSpoilers(rawMd);
 
           // write the preprocessed markdown to a temp file IN THE SAME

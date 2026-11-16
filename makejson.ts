@@ -20,14 +20,22 @@ class BlogPost {
   private text: string;
   private github: string;
   private url: string;
+  private cut: boolean; // true if the preview was cut early with a %%% line
 
-  constructor(dateString: string, title: string, text: string, file: string) {
+  constructor(
+    dateString: string,
+    title: string,
+    text: string,
+    file: string,
+    cut = false,
+  ) {
     const [year, month, day] = dateString.split("-");
     this.date = new Date(Number(year), Number(month) - 1, Number(day));
     this.title = title;
     this.github = "";
     this.url = "";
     this.text = text;
+    this.cut = cut;
 
     // get the github URL from the local directory
     try {
@@ -69,31 +77,38 @@ function compareBlogPostsByDate(a: BlogPost, b: BlogPost): number {
 // array of all blog posts (populated as files are read)
 let posts: BlogPost[] = [];
 
+// a line containing only %%% marks where the front page preview should stop
+const previewCutRegex = /^[ \t]*%%%[ \t]*\r?$/m;
+
 // this is a promise so we can make sure to execute something after it finishes
 function readFile(filePath: string, file: string): Promise<BlogPost> {
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(filePath, { encoding: "utf8" });
-    let firstLine = "";
-    let text = "";
+    let raw = "";
 
+    // collect the whole file first -- streams hand it over in 64KB chunks,
+    // so parsing per chunk would only keep the last piece of long posts
     fileStream.on("data", (chunk: string | Buffer) => {
-      // ensure chunk is a string
-      const chunkString = chunk.toString();
+      raw += chunk.toString();
+    });
 
+    fileStream.on("close", () => {
       // array of each line
-      const lines = chunkString.split("\n");
-
-      // Read the first line from the file
-      firstLine = lines[0];
+      const lines = raw.split("\n");
 
       // remove the first line
       lines.shift();
 
       // combine everything back together minus the first line
-      text = lines.join("\n").trim();
-    });
+      let text = lines.join("\n").trim();
 
-    fileStream.on("close", () => {
+      // cut the preview at a %%% line if there is one
+      const cutMatch = previewCutRegex.exec(text);
+      const cut = cutMatch !== null;
+      if (cutMatch) {
+        text = text.substring(0, cutMatch.index).trim();
+      }
+
       let dateString = file.split(" ")[0];
       let title = file.substring(file.indexOf(" ") + 1).replace(".md", "");
       let trimmedText = text.replace(/^\n+/, "");
@@ -104,6 +119,7 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
         title,
         removeMarkdown(trimmedText),
         file,
+        cut,
       );
 
       // i promise ill give u this blog post uwu
