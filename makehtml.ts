@@ -78,6 +78,41 @@ function extractSpoilers(text: string): { text: string; spoilers: string[] } {
   return { text: output.join("\n"), spoilers };
 }
 
+// ==========================================================
+// upload box syntax: a line containing only
+// :::upload someName
+// becomes a drag-and-drop file box. post.js finds it by name and runs the
+// matching handler from its uploadHandlers table. like spoilers, the line is
+// swapped for a placeholder before marked runs (padded with blank lines so it
+// always lands in its own <p>), then replaced with the real html afterwards.
+// this runs before extractSpoilers, so upload boxes also work inside spoilers.
+// ==========================================================
+function extractUploads(text: string): { text: string; uploads: string[] } {
+  const uploads: string[] = [];
+  const out = text.replace(
+    /^:::upload[ \t]+(\S+)[ \t]*\r?$/gm,
+    (_line: string, name: string) => {
+      const idx = uploads.length;
+      uploads.push(name);
+      return `\n%%%UPLOAD_${idx}%%%\n`;
+    },
+  );
+  return { text: out, uploads };
+}
+
+function uploadBoxHtml(name: string): string {
+  const safeName = name.replace(/&/g, "&amp;").replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  // post.js fills in the title/hint/status text for each handler
+  return `<div class="upload-drop" data-upload="${safeName}" tabindex="0" role="button">` +
+    `<span class="upload-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>` +
+    `<div class="upload-title">Drop a file here</div>` +
+    `<small class="upload-hint"></small>` +
+    `<input type="file" hidden>` +
+    `<div class="upload-status">Drop or click to choose a file</div>` +
+    `</div>`;
+}
+
 // relative to current working directory
 const mdPath = "posts/";
 const htmlOutputPath = "p/";
@@ -131,7 +166,8 @@ fs.readFile("header.html", "utf8", (err, data) => {
           // (see makejson.ts), it should not show up in the post itself
           const rawMd = fs.readFileSync(filePath, "utf8")
             .replace(/^[ \t]*%%%[ \t]*\r?$\n?/gm, "");
-          const { text: processedMd, spoilers } = extractSpoilers(rawMd);
+          const { text: uploadMd, uploads } = extractUploads(rawMd);
+          const { text: processedMd, spoilers } = extractSpoilers(uploadMd);
 
           // write the preprocessed markdown to a temp file IN THE SAME
           // DIRECTORY so relative image/video paths in the post still
@@ -250,6 +286,15 @@ fs.readFile("header.html", "utf8", (err, data) => {
                       spoilers[idx],
                     );
                   }
+
+                  // upload boxes go in after spoilers, so any that were
+                  // inside a spoiler have been surfaced by now
+                  uploads.forEach((name, idx) => {
+                    modifiedHtml = modifiedHtml.replace(
+                      `<p>%%%UPLOAD_${idx}%%%</p>`,
+                      uploadBoxHtml(name),
+                    );
+                  });
 
                   // Metadata
                   modifiedHtml = modifiedHtml.replace(

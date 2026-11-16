@@ -290,3 +290,68 @@ details.spoiler details.spoiler {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* upload boxes (":::upload name" in a post): dashed drop target, wired up by post.js */
+#content .upload-drop {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 12px;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    margin: 10px auto 20px;
+    padding: 5px;
+    padding-right: 12px;
+    border: 2px dashed #ffffff4d;
+    border-radius: 10px;
+    background-color: #0000002a;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s;
+    line-height: 150%;
+}
+
+/* hover / keyboard focus / file dragged over it */
+#content .upload-drop:hover,
+#content .upload-drop:focus,
+#content .upload-drop.dragover {
+    border-color: #ffffffaa;
+    background-color: #ffffff14;
+    outline: none;
+}
+
+/* icon sits in its own column on the left, spanning all the text rows */
+#content .upload-drop .upload-icon {
+    grid-row: 1 / span 4;
+    display: flex;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#content .upload-drop .upload-title {
+    font-weight: bold;
+}
+
+/* small grey description under the title */
+#content .upload-drop .upload-hint {
+    display: block;
+    color: #ffffffaa;
+}
+
+/* status line at the bottom, recolored on success / failure */
+#content .upload-drop .upload-status {
+    font-size: smaller;
+}
+
+#content .upload-drop.done {
+    border-style: solid;
+    border-color: #00ff2a88;
+}
+
+#content .upload-drop.done .upload-status {
+    color: #00ff2a;
+}
+
+#content .upload-drop.bad .upload-status {
+    color: #ffee00;
+}
