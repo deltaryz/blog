@@ -257,3 +257,15 @@ document.querySelectorAll("#content .tabs").forEach(function (group) {
         });
     });
 });
+
+
+// ==========================================================
+// external links in posts always open in a new tab
+// (same-tab navigation to github etc. breaks inside framed previews)
+// ==========================================================
+document.querySelectorAll("#content a[href]").forEach(function (a) {
+    if (a.host && a.host !== location.host) {
+        a.target = "_blank";
+        a.rel = "noopener";
+    }
+});
