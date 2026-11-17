@@ -21,6 +21,8 @@ Several custom syntax extensions have been added to allow our Markdown files to 
 spoiler content
 :::
 ```
+Collapsed by default, click the title to expand. Spoilers can be nested inside each other.
+
 **Tabs**
 ```
 :::tabs category1
@@ -29,11 +31,25 @@ alskdjfaksdlf
 kasdjkfldjakf
 :::
 ```
+Each `:::tabs Name` line starts a new tab in the same group, and a single `:::` closes the group.
 
+The first tab is selected by default.
+
+**Quote Blocks**
+
+Spoilers and tabs both also work inside `>` quote blocks, as long as every line (including the `:::` lines) keeps its `> ` prefix:
+```
+> :::tabs NES
+> NES content
+> :::tabs SNES
+> SNES content
+> :::
+```
 **End main page preview early**
 ```
 %%%
 ```
+Must be alone on its own line. Stops a main page preview at the specified location instead of the normal length.
 
 **File upload**
 ```
@@ -41,8 +57,22 @@ kasdjkfldjakf
 ```
 Use this name to create unique handling for each instance of the file upload. (HTML/CSS reused, JS logic per-use)
 
----
+The handler for each name lives in the `uploadHandlers` table in `post.js`.
 
+**Video**
+```
+:::video ../img/folder/clip.mp4
+:::video ../img/folder/clip.mp4 ../img/folder/thumbnail.png
+```
+Click-to-play video with native controls. Nothing downloads until play is pressed, no autoplay.
+
+The poster/thumbnail defaults to the same path with `.jpg` (e.g. `clip.jpg` next to `clip.mp4`); a second path overrides it.
+
+It fills the column and takes its height from the poster. `.webm` files get the webm type, everything else is treated as mp4.
+
+Works inside quotes, spoilers and tabs.
+
+---
 **AI Usage Disclaimer**
 
 This repository is a mixture of my own hand-written code, and features implemented by AI. Each commit is credited to either me or a specific AI model via `user.name`, such as `deepseek-v4.1-flash`.
