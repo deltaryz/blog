@@ -422,3 +422,14 @@ details.spoiler details.spoiler {
     margin-bottom: 0;
     padding-bottom: 0;
 }
+
+/* :::video embeds: full column width, height follows the poster/video, rounded like images */
+#content video.post-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 10px auto 25px;
+    border-radius: 7px;
+    box-shadow: 3px 3px 5px #00000071;
+    background-color: #000;
+}

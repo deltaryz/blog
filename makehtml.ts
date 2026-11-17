@@ -175,6 +175,36 @@ function uploadBoxHtml(name: string): string {
     `</div>`;
 }
 
+// ==========================================================
+// video syntax: a line containing only
+// :::video path/to/clip.mp4 [path/to/poster.jpg]
+// becomes a click-to-play <video>. nothing downloads until play is pressed,
+// and the poster (default: same path with .jpg) sizes the box until then, so
+// no resolution is needed. same placeholder trick as uploads, and a leading
+// "> " quote prefix is kept so it also works inside quote blocks.
+// ==========================================================
+function extractVideos(text: string): { text: string; videos: string[][] } {
+  const videos: string[][] = [];
+  const out = text.replace(
+    /^((?:>[ \t]?)*):::video[ \t]+(\S+)(?:[ \t]+(\S+))?[ \t]*\r?$/gm,
+    (_line: string, quote: string, src: string, poster?: string) => {
+      const idx = videos.length;
+      videos.push([src, poster || src.replace(/\.[^./]+$/, "") + ".jpg"]);
+      const q = quote.trimEnd();
+      return `${q}\n${quote}%%%VIDEO_${idx}%%%\n${q}`;
+    },
+  );
+  return { text: out, videos };
+}
+
+function videoHtml(src: string, poster: string): string {
+  const esc = (v: string) =>
+    v.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  return `<video class="post-video" controls preload="none" playsinline poster="${esc(poster)}">` +
+    `<source src="${esc(src)}" type="video/${/\.webm$/i.test(src) ? "webm" : "mp4"}"></video>`;
+}
+
 // relative to current working directory
 const mdPath = "posts/";
 const htmlOutputPath = "p/";
@@ -228,7 +258,8 @@ fs.readFile("header.html", "utf8", (err, data) => {
           // (see makejson.ts), it should not show up in the post itself
           const rawMd = fs.readFileSync(filePath, "utf8")
             .replace(/^[ \t]*%%%[ \t]*\r?$\n?/gm, "");
-          const { text: uploadMd, uploads } = extractUploads(rawMd);
+          const { text: videoMd, videos } = extractVideos(rawMd);
+          const { text: uploadMd, uploads } = extractUploads(videoMd);
           const { text: processedMd, spoilers } = extractSpoilers(uploadMd);
 
           // write the preprocessed markdown to a temp file IN THE SAME
@@ -289,7 +320,9 @@ fs.readFile("header.html", "utf8", (err, data) => {
 
                   bodyContent = bodyContent.substring(
                     bodyContent.indexOf("\n") + 1,
-                  ).replace(/<[^>]*>/g, "").replaceAll(
+                  ).replace(/<[^>]*>/g, "")
+                    .replace(/%%%[A-Z]+_\d+%%%/g, "") // spoiler/upload/video placeholders
+                    .replaceAll(
                     "\n",
                     " ",
                   ).substring(0, 420);
@@ -355,6 +388,14 @@ fs.readFile("header.html", "utf8", (err, data) => {
                     modifiedHtml = modifiedHtml.replace(
                       `<p>%%%UPLOAD_${idx}%%%</p>`,
                       uploadBoxHtml(name),
+                    );
+                  });
+
+                  // videos, same as upload boxes
+                  videos.forEach(([src, poster], idx) => {
+                    modifiedHtml = modifiedHtml.replace(
+                      `<p>%%%VIDEO_${idx}%%%</p>`,
+                      videoHtml(src, poster),
                     );
                   });
 
