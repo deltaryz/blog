@@ -72,6 +72,14 @@ It fills the column and takes its height from the poster. `.webm` files get the 
 
 Works inside quotes, spoilers and tabs.
 
+**Comment**
+```
+:::comment some side note here
+```
+Centered, semitransparent line of text. Inline markdown (bold, italics, `code`, links) still works inside it.
+
+Must be alone on its own line. Works inside quotes, spoilers and tabs.
+
 ---
 **AI Usage Disclaimer**
 

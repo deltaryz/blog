@@ -502,3 +502,9 @@ details.spoiler details.spoiler {
     box-shadow: 3px 3px 5px #00000071;
     background-color: #000;
 }
+
+/* :::comment lines: centered, semitransparent aside text */
+#content .post-comment {
+    text-align: center;
+    opacity: 0.6;
+}

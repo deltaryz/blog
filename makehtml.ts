@@ -205,6 +205,37 @@ function videoHtml(src: string, poster: string): string {
     `<source src="${esc(src)}" type="video/${/\.webm$/i.test(src) ? "webm" : "mp4"}"></video>`;
 }
 
+// ==========================================================
+// comment syntax: a line containing only
+// :::comment some text here
+// becomes a centered, semitransparent line of text (inline markdown like
+// **bold**, `code` and links still works). same placeholder trick as videos,
+// including the "> " quote prefix handling.
+// ==========================================================
+function extractComments(text: string): { text: string; comments: string[] } {
+  const comments: string[] = [];
+  const out = text.replace(
+    /^((?:>[ \t]?)*):::comment[ \t]+(.*?)[ \t]*\r?$/gm,
+    (_line: string, quote: string, body: string) => {
+      const idx = comments.length;
+      comments.push(body);
+      // keep a space after the ">" on the padding lines: marked 0.3.2 only
+      // treats a line as quoted if something follows the ">", so a bare ">"
+      // would render as a literal &gt; paragraph
+      const q = quote ? quote.trimEnd() + " " : "";
+      return `${q}\n${q}%%%COMMENT_${idx}%%%\n${q}`;
+    },
+  );
+  return { text: out, comments };
+}
+
+function commentHtml(body: string): string {
+  marked.setOptions({ gfm: true, breaks: true, tables: true, sanitize: true });
+  // render as a paragraph, then drop marked's own <p> wrapper for ours
+  const inner = marked(body).trim().replace(/^<p>([\s\S]*)<\/p>$/, "$1");
+  return `<p class="post-comment">${inner}</p>`;
+}
+
 // relative to current working directory
 const mdPath = "posts/";
 const htmlOutputPath = "p/";
@@ -259,7 +290,8 @@ fs.readFile("header.html", "utf8", (err, data) => {
           const rawMd = fs.readFileSync(filePath, "utf8")
             .replace(/^[ \t]*%%%[ \t]*\r?$\n?/gm, "");
           const { text: videoMd, videos } = extractVideos(rawMd);
-          const { text: uploadMd, uploads } = extractUploads(videoMd);
+          const { text: commentMd, comments } = extractComments(videoMd);
+          const { text: uploadMd, uploads } = extractUploads(commentMd);
           const { text: processedMd, spoilers } = extractSpoilers(uploadMd);
 
           // write the preprocessed markdown to a temp file IN THE SAME
@@ -321,7 +353,7 @@ fs.readFile("header.html", "utf8", (err, data) => {
                   bodyContent = bodyContent.substring(
                     bodyContent.indexOf("\n") + 1,
                   ).replace(/<[^>]*>/g, "")
-                    .replace(/%%%[A-Z]+_\d+%%%/g, "") // spoiler/upload/video placeholders
+                    .replace(/%%%[A-Z]+_\d+%%%/g, "") // spoiler/upload/video/comment placeholders
                     .replaceAll(
                     "\n",
                     " ",
@@ -396,6 +428,14 @@ fs.readFile("header.html", "utf8", (err, data) => {
                     modifiedHtml = modifiedHtml.replace(
                       `<p>%%%VIDEO_${idx}%%%</p>`,
                       videoHtml(src, poster),
+                    );
+                  });
+
+                  // comments, same as videos
+                  comments.forEach((body, idx) => {
+                    modifiedHtml = modifiedHtml.replace(
+                      `<p>%%%COMMENT_${idx}%%%</p>`,
+                      commentHtml(body),
                     );
                   });
 
