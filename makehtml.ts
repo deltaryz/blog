@@ -359,6 +359,15 @@ function insertToc(html: string): string {
   return html.slice(0, at) + "\n" + toc + html.slice(at);
 }
 
+// front page previews from makejson.ts (deno task build runs it first), used
+// for the embed description of posts that set their own %%% cutoff
+let frontPagePreviews: { url: string; text: string; cut?: boolean }[] = [];
+try {
+  frontPagePreviews = JSON.parse(fs.readFileSync("posts.json", "utf8"));
+} catch {
+  console.warn("WARNING: posts.json missing, run makejson.ts first for %%% embed previews");
+}
+
 // relative to current working directory
 const mdPath = "posts/";
 const htmlOutputPath = "p/";
@@ -487,6 +496,16 @@ fs.readFile("header.html", "utf8", (err, data) => {
                     "\n",
                     " ",
                   ).substring(0, 420);
+
+                  // if the post has a %%% cutoff line, the embed uses exactly the
+                  // front page's preview text (makejson.ts, built just before this)
+                  // instead of the first 420 characters of the rendered post
+                  const preview = frontPagePreviews.find((p) =>
+                    p.url === htmlOutputPath + htmlFileName
+                  );
+                  if (preview && preview.cut) {
+                    bodyContent = preview.text.replaceAll("\n", " ");
+                  }
 
                   bodyContent =
                     "Music producer, DJ, developer, artist, graphic designer, weird autistic internet animal. \n\n" +
