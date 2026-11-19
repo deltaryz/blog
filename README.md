@@ -80,6 +80,17 @@ Centered, semitransparent line of text. Inline markdown (bold, italics, `code`, 
 
 Must be alone on its own line. Works inside quotes, spoilers and tabs.
 
+**Redirect**
+```
+:::redirect brickfix
+:::redirect example1 example2
+```
+Makes `blog.deltaryz.com/brickfix` (and `/example1`, `/example2`) forward to this post. Several names can go on one line. The line is removed from the post and the front page preview.
+
+More than one `:::redirect` line in the same post still works (all names get merged), but the build log prints a warning with the line numbers.
+
+Each name becomes a top-level folder with a generated `index.html`; the build deletes and regenerates them every time. Names that clash with a real file/folder or with another post's redirect are skipped with a warning. Allowed characters: letters, numbers, `.`, `_`, `-`.
+
 ---
 **AI Usage Disclaimer**
 

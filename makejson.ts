@@ -100,7 +100,8 @@ function readFile(filePath: string, file: string): Promise<BlogPost> {
       lines.shift();
 
       // combine everything back together minus the first line
-      let text = lines.join("\n").trim();
+      // (:::redirect lines are build instructions, see makehtml.ts, not post text)
+      let text = lines.join("\n").replace(/^[ \t]*:::redirect\b.*\r?$\n?/gm, "").trim();
 
       // cut the preview at a %%% line if there is one
       const cutMatch = previewCutRegex.exec(text);
