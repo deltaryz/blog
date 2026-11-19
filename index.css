@@ -157,13 +157,18 @@ html.header-gone body::before {
     width: fit-content;
     max-width: 100%;
     box-sizing: border-box;
-    margin: 10px auto 20px; /* centered */
-    box-shadow: 3px 3px 2px #00000066; /* title-bar shadow, darker */
-    border: 1px solid #1a0d26; /* near-black purple outline */
+    margin: 10px auto 20px;
+    /* centered */
+    box-shadow: 3px 3px 2px #00000066;
+    /* title-bar shadow, darker */
+    border: 1px solid #1a0d26;
+    /* near-black purple outline */
     padding: 10px 29px 10px 24px;
     position: relative;
-    overflow: hidden; /* clips the row stripes to the box */
-    isolation: isolate; /* keeps the stripes (z-index -1) above the box background */
+    overflow: hidden;
+    /* clips the row stripes to the box */
+    isolation: isolate;
+    /* keeps the stripes (z-index -1) above the box background */
     border-radius: 6px;
     background-color: #00000059;
 }
@@ -171,7 +176,8 @@ html.header-gone body::before {
 #content nav.toc ul {
     margin: 0;
     padding-left: 20px;
-    padding-bottom: 0; /* the global p, ul, pre rule adds 10px under every list */
+    padding-bottom: 0;
+    /* the global p, ul, pre rule adds 10px under every list */
 }
 
 #content nav.toc>ul {
@@ -210,8 +216,10 @@ html.header-gone body::before {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: -1000px; /* runs out to the box's left edge (clipped there), past bullets and indents */
-    right: -1000px; /* extend to the clipped box edge regardless of padding or nesting */
+    left: -1000px;
+    /* runs out to the box's left edge (clipped there), past bullets and indents */
+    right: -1000px;
+    /* extend to the clipped box edge regardless of padding or nesting */
     background-color: #ffffff0e;
     z-index: -1;
 }
@@ -641,5 +649,5 @@ details.spoiler details.spoiler {
 /* :::comment lines: centered, semitransparent aside text */
 #content .post-comment {
     text-align: center;
-    opacity: 0.6;
+    opacity: 0.725;
 }
