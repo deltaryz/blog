@@ -431,8 +431,8 @@ if (appbar && "IntersectionObserver" in window) {
             g.addColorStop(0.6, "rgba(255,255,255,1)");
             g.addColorStop(1, "rgba(255,255,255,0)");
             // brightness: 1.8x over the content column and on narrow screens (boosted while testing
-            // the frosted glass), easing to 1.75x at the screen edge, all scaled by 0.77
-            ctx.globalAlpha = 0.77 * Math.min(1, s.peak * k * (1.8 - 0.05 * ((density(x) - 1) / 4)));
+            // the frosted glass), easing to 1.75x at the screen edge, all scaled by 0.886 (0.77 + 15%)
+            ctx.globalAlpha = 0.886 * Math.min(1, s.peak * k * (1.8 - 0.05 * ((density(x) - 1) / 4)));
             ctx.fillStyle = g;
             ctx.beginPath();
             ctx.arc(cx, cy, r, 0, Math.PI * 2);
