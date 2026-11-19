@@ -270,6 +270,23 @@ document.querySelectorAll("#content a[href]").forEach(function (a) {
     }
 });
 
+// ==========================================================
+// long unbroken inline code (hashes etc) wraps with a visible hyphen:
+// soft hyphens go between every character of words 16+ chars long, and are
+// stripped again on copy so pasted hashes stay exact
+// ==========================================================
+document.querySelectorAll("#content :not(pre) > code").forEach(function (code) {
+    if (code.children.length) return;
+    var text = code.textContent;
+    if (!/\S{16,}/.test(text)) return;
+    code.textContent = text.replace(/\S{16,}/g, function (word) { return word.split("").join("\u00AD"); });
+});
+document.addEventListener("copy", function (e) {
+    var text = String(window.getSelection());
+    if (text.indexOf("\u00AD") === -1) return;
+    e.clipboardData.setData("text/plain", text.replace(/\u00AD/g, ""));
+    e.preventDefault();
+});
 
 // top shadow (body::before in index.css) only shows once the header bar is completely off screen
 var appbar = document.querySelector(".mui-appbar");

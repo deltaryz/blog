@@ -186,6 +186,13 @@ pre {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
+    /* long lines scroll sideways inside the block instead of wrapping or widening it */
+    overflow-x: auto;
+}
+
+/* code blocks keep their lines intact; inline code still wraps (rule below) */
+pre>code {
+    white-space: pre;
 }
 
 code {
@@ -197,6 +204,18 @@ code {
     background-color: #00000038;
     padding: 3px;
     border-radius: 5px;
+    /* hashes etc: break anywhere rather than push the page sideways (post.js also adds soft hyphens) */
+    overflow-wrap: anywhere;
+}
+
+/* nothing in a post may ever widen the page; wide things wrap or scroll inside their own box */
+#content {
+    overflow-wrap: anywhere;
+}
+
+html,
+body {
+    overflow-x: clip;
 }
 
 /* links that are inline code: no green, underline on hover so they still read as links */
