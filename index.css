@@ -63,6 +63,22 @@ body {
     background-image: linear-gradient(45deg, #a85690, #4c229e);
 }
 
+/* twinkling pixels (post.js): the canvas is fixed to the viewport and sits at z-index -1 inside the
+   body's own stacking context, so it paints over the body gradient but under all the content */
+body.twinkle {
+    position: relative;
+    z-index: 0;
+}
+
+#twinkle {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
 /* iOS 17 Safari only tints its bottom toolbar when the page has a solid background-color AND the
    body background isn't background-attachment: fixed (fixed = white bar; tested on delta's phone
    via wendy.monster/bartest 2026-11-17). "html body" not "body": mui.min.css loads after this file
@@ -212,6 +228,9 @@ html {
     margin-top: 25px;
     border-radius: 10px;
     max-width: 810px;
+    /* frosted glass over the twinkling stars behind it */
+    -webkit-backdrop-filter: blur(1.5px);
+    backdrop-filter: blur(1.5px);
 }
 
 @media (max-width: 868px) {

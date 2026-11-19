@@ -296,3 +296,102 @@ if (appbar && "IntersectionObserver" in window) {
     }).observe(appbar);
 }
 
+// ==========================================================
+// twinkling background stars: round soft dots (1-3px, mostly small) on a
+// canvas fixed to the viewport (they don't scroll with the page). each star
+// lives for one slow fade in + out (3-9s, never brighter than 60%), drifting
+// in a straight line at its own constant speed and direction the whole time,
+// then respawns somewhere new with a new heading. on wide screens the side
+// margins get denser toward the screen edges (up to 5x). the canvas sits between the
+// body's gradient and the content (see body.twinkle in index.css). static,
+// non-moving dots if the reader prefers reduced motion.
+// ==========================================================
+(function () {
+    var canvas = document.createElement("canvas");
+    canvas.id = "twinkle";
+    document.body.prepend(canvas);
+    document.body.classList.add("twinkle");
+    var ctx = canvas.getContext("2d");
+    var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var stars = [], w = 0, h = 0, dpr = 1, left = 0, right = 0, wide = false;
+
+    // star density multiplier at screen x: 1 normally; on wide screens (room for 2+ content
+    // columns) it ramps from 1x at the content's edge up to 5x at the screen edge
+    function density(x) {
+        if (!wide) return 1;
+        if (x < left) return 1 + 4 * (left - x) / left;
+        if (x > right) return 1 + 4 * (x - right) / (w - right);
+        return 1;
+    }
+
+    // (re)roll everything about a star except its timing
+    function spawn(s, born) {
+        var angle = Math.random() * Math.PI * 2;
+        var speed = 0.5 + Math.random() * 5.5; // css px per second, very slow (max 6)
+        do { s.x = Math.random() * w; } while (Math.random() * 5 > density(s.x)); // weighted toward dense edges
+        s.y = Math.random() * h;
+        s.vx = Math.cos(angle) * speed / 1000; // per ms
+        s.vy = Math.sin(angle) * speed / 1000;
+        s.born = born;
+        s.peak = 0.23 + Math.random() * 0.37; // max opacity 23-60%
+        s.size = 1 + 2 * Math.pow(Math.random(), 3); // 1-3px across, mostly near 1
+    }
+
+    function setup(now) {
+        dpr = window.devicePixelRatio || 1;
+        w = window.innerWidth; h = window.innerHeight;
+        canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+        var frame = document.getElementById("contentFrame") || document.getElementById("content");
+        var box = frame ? frame.getBoundingClientRect() : { left: 0, right: w, width: w };
+        left = box.left; right = box.right;
+        wide = box.width > 0 && w >= 2 * box.width && left > 0 && right < w;
+        stars = [];
+        // ~1 star per 3100px² over the content (double that on screens too narrow for the ramp),
+        // plus the extra in the ramped margins
+        var count = Math.round(0.64 * h * (wide ? w + 2 * left + 2 * (w - right) : 2 * w) / 2000);
+        for (var i = 0; i < count; i++) {
+            var s = { period: 3000 + Math.random() * 6000 }; // one life = one fade in + out, 3-9s
+            s.offset = Math.random() * s.period; // stagger so they don't all blink together
+            s.life = Math.floor((now + s.offset) / s.period);
+            spawn(s, now);
+            stars.push(s);
+        }
+    }
+
+    function draw(t) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(function (s) {
+            var k = 0.6, x = s.x, y = s.y;
+            if (!still) {
+                var life = Math.floor((t + s.offset) / s.period);
+                if (life !== s.life) { s.life = life; spawn(s, t); } // invisible at this point, safe to jump
+                k = 0.5 - 0.5 * Math.cos(((t + s.offset) % s.period) / s.period * 2 * Math.PI); // 0..1..0
+                x = s.x + s.vx * (t - s.born);
+                y = s.y + s.vy * (t - s.born);
+            }
+            // round soft dot: solid core, fading to nothing at the edge
+            var cx = x * dpr, cy = y * dpr, r = s.size * dpr / 2 + 0.5;
+            var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+            g.addColorStop(0, "rgba(255,255,255,1)");
+            g.addColorStop(0.6, "rgba(255,255,255,1)");
+            g.addColorStop(1, "rgba(255,255,255,0)");
+            // brightness: 1.8x over the content column and on narrow screens (boosted while testing
+            // the frosted glass), easing to 1.75x at the screen edge, all scaled by 0.77
+            ctx.globalAlpha = 0.77 * Math.min(1, s.peak * k * (1.8 - 0.05 * ((density(x) - 1) / 4)));
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+
+    var last = 0;
+    function loop(t) {
+        if (t - last > 33) { draw(t); last = t; } // ~30fps keeps the slow drift smooth
+        requestAnimationFrame(loop);
+    }
+
+    setup(performance.now());
+    window.addEventListener("resize", function () { var now = performance.now(); setup(now); draw(now); });
+    if (still) draw(0); else requestAnimationFrame(loop);
+})();
