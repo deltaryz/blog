@@ -165,7 +165,7 @@ var brickFixRoms = [
 var uploadHandlers = {
     brickfix: {
         title: "Patch your ROM",
-        hint: "Fully clientside JS patcher, all ROMs below supported",
+        hint: "All ROMs below supported",
         accept: ".sfc,.smc",
         handle: function (file, ui) {
             ui.status("Reading " + file.name + "...");
