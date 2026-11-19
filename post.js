@@ -269,3 +269,13 @@ document.querySelectorAll("#content a[href]").forEach(function (a) {
         a.rel = "noopener";
     }
 });
+
+
+// top shadow (body::before in index.css) only shows once the header bar is completely off screen
+var appbar = document.querySelector(".mui-appbar");
+if (appbar && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+        document.documentElement.classList.toggle("header-gone", !entries[0].isIntersecting);
+    }).observe(appbar);
+}
+

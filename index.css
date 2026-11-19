@@ -61,7 +61,51 @@ body a:hover {
 
 body {
     background-image: linear-gradient(45deg, #a85690, #4c229e);
-    background-attachment: fixed;
+}
+
+/* iOS 17 Safari only tints its bottom toolbar when the page has a solid background-color AND the
+   body background isn't background-attachment: fixed (fixed = white bar; tested on delta's phone
+   via wendy.monster/bartest 2026-11-17). "html body" not "body": mui.min.css loads after this file
+   and sets body { background-color: #FFF }, which silently won at equal specificity */
+html,
+html body {
+    /* same as the theme-color meta, so the bottom bar matches the top bar and the overscroll band */
+    background-color: #5B2A9C;
+}
+
+/* shadow the bottom browser bar casts onto the page: 30% black at the edge, dropping off fast
+   then a long faint tail (stops follow 0.3 * (1 - t)^3). fixed to the viewport so it stays put
+   while the page rubber-bands; never blocks taps */
+body::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 36px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.219) 10%, rgba(0, 0, 0, 0.127) 25%, rgba(0, 0, 0, 0.065) 40%, rgba(0, 0, 0, 0.019) 60%, rgba(0, 0, 0, 0.002) 80%, rgba(0, 0, 0, 0.0) 100%);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* same shadow mirrored at the top, only once the blue-pink header has scrolled fully off
+   (post.js toggles .header-gone on <html>) */
+body::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 36px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.219) 10%, rgba(0, 0, 0, 0.127) 25%, rgba(0, 0, 0, 0.065) 40%, rgba(0, 0, 0, 0.019) 60%, rgba(0, 0, 0, 0.002) 80%, rgba(0, 0, 0, 0.0) 100%);
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+html.header-gone body::before {
+    opacity: 1;
 }
 
 #posts {
