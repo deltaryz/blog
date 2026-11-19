@@ -91,6 +91,7 @@ With this menu still open, press `(X)` to access the Cheats menu, select `Contro
 Press `(X)` to save, and then...
 
 :::spoiler OPTIONAL: 3DS Home Screen Forwarder
+# 3DS Home Screen Forwarder Setup
 
 If you would like to boot DS games from your **3DS Home Screen** instead of going through **TWiLightMenu++**, complete the following additional steps:
 
