@@ -93,7 +93,7 @@ Makes `blog.deltaryz.com/brickfix` (and `/example1`, `/example2`) forward to thi
 
 More than one `:::redirect` line in the same post still works (all names get merged), but the build log prints a warning with the line numbers.
 
-Each name becomes a top-level folder with a generated `index.html`; the build deletes and regenerates them every time. Names that clash with a real file/folder or with another post's redirect are skipped with a warning. Allowed characters: letters, numbers, `.`, `_`, `-`.
+Each name becomes a top-level folder with a generated `index.html` (plus a `.gitignore` so it stays out of git); the build deletes and regenerates them every time. Names that clash with a real file/folder or with another post's redirect are skipped with a warning. Allowed characters: letters, numbers, `.`, `_`, `-`.
 
 ---
 **AI Usage Disclaimer**
