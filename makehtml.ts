@@ -324,6 +324,38 @@ function writeRedirects(names: string[], file: string, htmlFileName: string, emb
   }
 }
 
+// ==========================================================
+// table of contents: every # (h1) and ## (h2) heading after the post title
+// becomes a link in a nested list, h2s under the h1 before them. the list goes
+// right after the title. links are plain #id anchors (the ids marked already
+// puts on headings), so clicking scrolls there and leaves a permalink in the
+// url. posts with no headings besides the title get no box.
+// ==========================================================
+function insertToc(html: string): string {
+  const heads = [...html.matchAll(/<h([12]) id="([^"]+)">([\s\S]*?)<\/h\1>/g)];
+  if (heads.length < 2) return html; // just the title (or nothing)
+  const [title, ...rest] = heads;
+  let toc = '<nav class="toc"><ul>';
+  let open = false; // is there an h1 <li> with a nested <ul> waiting to close
+  let row = 0; // rows counted in reading order across both levels, for finder-style striping
+  for (const [, level, id, inner] of rest) {
+    const text = inner.replace(/<[^>]*>/g, "").trim();
+    const li = row++ % 2 ? '<li class="toc-alt">' : "<li>";
+    const link = `<a href="#${id}">${text}</a>`;
+    if (level === "1") {
+      if (open) toc += "</ul></li>";
+      toc += `${li}${link}<ul>`;
+      open = true;
+    } else {
+      toc += `${li}${link}</li>`;
+    }
+  }
+  if (open) toc += "</ul></li>";
+  toc = toc.replace(/<ul><\/ul>/g, "") + "</ul></nav>"; // drop empty sublists
+  const at = (title.index ?? 0) + title[0].length;
+  return html.slice(0, at) + "\n" + toc + html.slice(at);
+}
+
 // relative to current working directory
 const mdPath = "posts/";
 const htmlOutputPath = "p/";
@@ -559,6 +591,9 @@ fs.readFile("header.html", "utf8", (err, data) => {
                       commentHtml(body),
                     );
                   });
+
+                  // table of contents, last so headings inside spoilers/tabs count too
+                  modifiedHtml = insertToc(modifiedHtml);
 
                   // Metadata
                   modifiedHtml = modifiedHtml.replace(

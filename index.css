@@ -135,6 +135,75 @@ html.header-gone body::before {
     color: #00ff2a;
 }
 
+/* auto table of contents under the post title (makehtml.ts insertToc) */
+#content nav.toc {
+    text-align: left;
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 10px auto 20px; /* centered */
+    box-shadow: 3px 3px 2px #00000066; /* title-bar shadow, darker */
+    border: 1px solid #1a0d26; /* near-black purple outline */
+    padding: 10px 29px 10px 24px;
+    position: relative;
+    overflow: hidden; /* clips the row stripes to the box */
+    isolation: isolate; /* keeps the stripes (z-index -1) above the box background */
+    border-radius: 6px;
+    background-color: #00000059;
+}
+
+#content nav.toc ul {
+    margin: 0;
+    padding-left: 20px;
+    padding-bottom: 0; /* the global p, ul, pre rule adds 10px under every list */
+}
+
+#content nav.toc>ul {
+    padding-left: 18px;
+}
+
+#content nav.toc li {
+    margin: 0;
+}
+
+/* each entry is a full-width row; every other row gets a faint light stripe, finder style */
+#content nav.toc a {
+    display: block;
+    position: relative;
+    padding: 2px 0;
+    color: #ffb1e4;
+}
+
+/* nested second-level headings get the cooler purple */
+#content nav.toc ul ul li>a {
+    color: #d0baff;
+}
+
+#content nav.toc a:hover,
+#content nav.toc a:focus-visible {
+    color: #f6d8ff;
+}
+
+#content nav.toc ul ul li>a:hover,
+#content nav.toc ul ul li>a:focus-visible {
+    color: #e6ccff;
+}
+
+#content nav.toc li.toc-alt>a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1000px; /* runs out to the box's left edge (clipped there), past bullets and indents */
+    right: -1000px; /* extend to the clipped box edge regardless of padding or nesting */
+    background-color: #ffffff0e;
+    z-index: -1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 #contentFrame {
     /* background-color: #0000004d; */
     background-image: linear-gradient(0deg, #00000067, #9292922f);

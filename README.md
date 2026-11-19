@@ -80,6 +80,10 @@ Centered, semitransparent line of text. Inline markdown (bold, italics, `code`, 
 
 Must be alone on its own line. Works inside quotes, spoilers and tabs.
 
+**Table of contents**
+
+Built automatically, nothing to write. Every `#` and `##` heading after the post title goes into a nested list (each `##` under the `#` above it) that sits right below the title. Each entry links to `#heading-id`, so clicking scrolls there and the URL becomes a permalink. Posts with no headings besides the title get no box.
+
 **Redirect**
 ```
 :::redirect brickfix
