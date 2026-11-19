@@ -464,20 +464,27 @@ fs.readFile("header.html", "utf8", (err, data) => {
 
                   // embed tags, shared with the :::redirect pages so a
                   // short link unfurls on discord exactly like the full url
+                  // escape quotes so a title like 'The Truth About "Super Mario
+                  // All-Stars"...' doesn't end the content="" attribute early
+                  const attr = (v: string) =>
+                    v.replace(/&(?!#?\w+;)/g, "&amp;").replace(/"/g, "&quot;");
+                  const embedTitle = attr(postTitle);
+                  const embedText = attr(bodyContent);
+                  const embedUrl = htmlLink.replaceAll('"', "%22");
                   const embedMeta = `    <!-- discord/twitter embeds -->
-    <meta property="og:title" content="∆•RYZ - ` + postTitle + `">
+    <meta property="og:title" content="∆•RYZ - ` + embedTitle + `">
     <meta property="og:description"
-      content="` + bodyContent + `">
+      content="` + embedText + `">
     <meta property="og:image" content="https://blog.deltaryz.com/android-chrome-512x512.png">
-    <meta property="og:url" content="` + htmlLink + `">
+    <meta property="og:url" content="` + embedUrl + `">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card meta tags -->
-    <meta name="twitter:title" content="∆•RYZ - ` + postTitle + `">
+    <meta name="twitter:title" content="∆•RYZ - ` + embedTitle + `">
     <meta name="twitter:description"
-    content="` + bodyContent + `">
+    content="` + embedText + `">
     <meta name="twitter:image" content="https://blog.deltaryz.com/android-chrome-512x512.png">
-    <meta name="twitter:url" content="` + htmlLink + `">
+    <meta name="twitter:url" content="` + embedUrl + `">
 `;
 
                   writeRedirects(redirectNames, file, htmlFileName, embedMeta);
