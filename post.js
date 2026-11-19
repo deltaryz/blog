@@ -2,8 +2,28 @@
 
 let contentDiv = document.getElementById("content");
 
+// ```diff blocks: each line becomes its own row (red background for -, green for +), and the
+// code after the marker is highlighted separately, so the normal syntax colors still apply
+document.querySelectorAll('pre code.lang-diff').forEach(function (code) {
+    var lines = code.textContent.replace(/\n$/, "").split("\n");
+    code.textContent = "";
+    lines.forEach(function (line) {
+        var kind = line[0] === "+" ? "diff-add" : line[0] === "-" ? "diff-del" : "diff-ctx";
+        var row = document.createElement("span");
+        row.className = "diff-line " + kind;
+        var marker = document.createElement("span");
+        marker.className = "diff-marker";
+        marker.textContent = line.slice(0, 1) || " ";
+        var rest = document.createElement("span");
+        rest.className = "highlight";
+        rest.textContent = line.slice(1) || " ";
+        row.append(marker, rest);
+        code.append(row);
+    });
+});
+
 // Get all <code> elements inside <pre> elements and add the class "highlight" to them
-document.querySelectorAll('pre code').forEach(function(codeElement) {
+document.querySelectorAll('pre code:not(.lang-diff)').forEach(function(codeElement) {
     codeElement.classList.add('highlight');
 });
 

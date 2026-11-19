@@ -283,6 +283,36 @@ pre>code {
     white-space: pre;
 }
 
+/* ```diff blocks (post.js splits them into rows): full-width red/green line backgrounds.
+   the code element stretches to the widest line so the colour runs the whole scrolled width */
+pre>code.lang-diff {
+    display: inline-block;
+    min-width: 100%;
+}
+
+.diff-line {
+    display: block;
+    margin: 0 -10px;
+    /* run into the pre padding so the colour reaches the box edges */
+    padding: 0 10px;
+}
+
+.diff-add {
+    background-color: rgba(30, 230, 100, 0.3);
+}
+
+.diff-del {
+    background-color: rgba(255, 70, 70, 0.2);
+}
+
+.diff-add .diff-marker {
+    color: #6ee38a;
+}
+
+.diff-del .diff-marker {
+    color: #ff7a7a;
+}
+
 code {
     white-space: pre-wrap;
     color: rgb(255, 207, 118);
