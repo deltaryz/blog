@@ -297,6 +297,12 @@ pre>code.lang-diff {
     padding: 0 10px;
 }
 
+/* -- comments in Lua/SQL blocks (post.js), matching microlight's comment style */
+.dash-comment {
+    font-style: italic;
+    opacity: 0.5;
+}
+
 .diff-add {
     background-color: rgba(30, 230, 100, 0.3);
 }

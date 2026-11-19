@@ -22,8 +22,43 @@ document.querySelectorAll('pre code.lang-diff').forEach(function (code) {
     });
 });
 
+// microlight only knows //, /* */ and # comments, so in Lua (and SQL) a "--" comment got
+// tokenized like code, and an apostrophe in it started a bogus string. split those blocks into
+// code runs (highlighted as usual) and comment runs (styled like microlight's own comments)
+document.querySelectorAll('pre code.lang-lua, pre code.lang-sql').forEach(function (code) {
+    var text = code.textContent, out = [], start = 0, i = 0, quote = null, blockEnd = null;
+    function flush(end, comment) {
+        if (end > start) out.push([text.slice(start, end), comment]);
+        start = end;
+    }
+    while (i < text.length) {
+        var c = text[i];
+        if (blockEnd) { // inside --[[ ... ]] or a -- line comment
+            var end = text.indexOf(blockEnd, i);
+            if (end === -1) end = text.length; else if (blockEnd !== "\n") end += blockEnd.length;
+            i = end; flush(i, true); blockEnd = null; continue;
+        }
+        if (quote) { if (c === "\\") i++; else if (c === quote || c === "\n") quote = null; i++; continue; }
+        if (c === '"' || c === "'") { quote = c; i++; continue; }
+        if (c === "-" && text[i + 1] === "-") {
+            flush(i, false);
+            blockEnd = text.slice(i + 2, i + 4) === "[[" ? "]]" : "\n";
+            continue;
+        }
+        i++;
+    }
+    flush(text.length, false);
+    code.textContent = "";
+    out.forEach(function (part) {
+        var span = document.createElement("span");
+        span.className = part[1] ? "dash-comment" : "highlight";
+        span.textContent = part[0];
+        code.append(span);
+    });
+});
+
 // Get all <code> elements inside <pre> elements and add the class "highlight" to them
-document.querySelectorAll('pre code:not(.lang-diff)').forEach(function(codeElement) {
+document.querySelectorAll('pre code:not(.lang-diff):not(.lang-lua):not(.lang-sql)').forEach(function(codeElement) {
     codeElement.classList.add('highlight');
 });
 
