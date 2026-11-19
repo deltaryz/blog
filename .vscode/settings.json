@@ -1,0 +1,9 @@
+{
+    // css formats with prettier instead of the built-in formatter, which moves
+    // same-line /* */ comments onto their own line below the declaration
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.tabWidth": 4,
+    "prettier.endOfLine": "auto" // keep index.css CRLF
+}
