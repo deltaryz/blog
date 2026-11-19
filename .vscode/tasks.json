@@ -15,6 +15,20 @@
                 "clear": true
             },
             "problemMatcher": []
+        },
+        {
+            "label": "denowatch",
+            "type": "shell",
+            "command": "deno task watch",
+            "isBackground": true,
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
         }
     ]
 }
