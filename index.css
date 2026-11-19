@@ -434,6 +434,14 @@ details.spoiler details.spoiler {
    the panels, only the active panel is shown. switching is done by post.js */
 #content .tabs {
     margin: 10px 0 20px;
+    /* every panel sits in the same grid cell, so the container is always as
+       tall as its tallest tab and switching tabs never shifts the page */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+}
+
+#content .tab-buttons {
+    grid-row: 1;
 }
 
 #content .tab-buttons {
@@ -465,14 +473,17 @@ details.spoiler details.spoiler {
 }
 
 #content .tab-panel {
-    display: none;
+    grid-row: 2;
+    grid-column: 1;
+    visibility: hidden;
     padding: 10px;
     border-radius: 0 6px 6px 6px;
     background-color: #0000003d;
 }
 
+/* inherit (not visible) so an active tab nested inside a hidden outer tab stays hidden */
 #content .tab-panel.active {
-    display: block;
+    visibility: inherit;
 }
 
 /* code blocks already sit on the panel background, don't double up */
