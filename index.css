@@ -218,9 +218,16 @@ body {
     overflow-x: clip;
 }
 
-/* links that are inline code: no green, underline on hover so they still read as links */
-#content a:hover>code {
+/* links that are inline code: always underlined, glow on hover so they clearly read as links */
+#content a>code {
     text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: box-shadow 0.15s, text-shadow 0.15s;
+}
+
+#content a:hover>code {
+    box-shadow: 0 0 8px rgba(255, 207, 118, 0.6);
+    text-shadow: 0 0 6px rgba(255, 207, 118, 0.8);
 }
 
 h2 {
